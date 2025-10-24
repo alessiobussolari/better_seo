@@ -43,8 +43,8 @@ module BetterSeo
       # Push e-commerce data
       def push_ecommerce(event:, ecommerce:)
         data = {
-          'event' => event,
-          'ecommerce' => ecommerce.transform_keys(&:to_s)
+          "event" => event,
+          "ecommerce" => ecommerce.transform_keys(&:to_s)
         }
 
         <<~JS.strip
@@ -63,11 +63,11 @@ module BetterSeo
         return "" if text.nil?
 
         text.to_s
-          .gsub("&", "&amp;")
-          .gsub("<", "&lt;")
-          .gsub(">", "&gt;")
-          .gsub('"', "&quot;")
-          .gsub("'", "&#39;")
+            .gsub("&", "&amp;")
+            .gsub("<", "&lt;")
+            .gsub(">", "&gt;")
+            .gsub('"', "&quot;")
+            .gsub("'", "&#39;")
       end
     end
   end

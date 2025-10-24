@@ -49,10 +49,10 @@ RSpec.describe BetterSeo::Generators::BreadcrumbsGenerator do
     it "adds multiple items from array" do
       generator = described_class.new
       generator.add_items([
-        { name: "Home", url: "/" },
-        { name: "Products", url: "/products" },
-        { name: "Laptops", url: "/products/laptops" }
-      ])
+                            { name: "Home", url: "/" },
+                            { name: "Products", url: "/products" },
+                            { name: "Laptops", url: "/products/laptops" }
+                          ])
 
       expect(generator.items.size).to eq(3)
     end
@@ -98,7 +98,7 @@ RSpec.describe BetterSeo::Generators::BreadcrumbsGenerator do
       html = generator.to_html
 
       expect(html).to include('<li class="breadcrumb-item active" aria-current="page">')
-      expect(html).to include('Current Page')
+      expect(html).to include("Current Page")
       expect(html).not_to include('<a href="">Current Page</a>')
     end
 
@@ -202,7 +202,7 @@ RSpec.describe BetterSeo::Generators::BreadcrumbsGenerator do
 
       expect(script).to include('<script type="application/ld+json">')
       expect(script).to include('"@context":"https://schema.org"')
-      expect(script).to include('</script>')
+      expect(script).to include("</script>")
     end
 
     it "returns empty string when no items" do

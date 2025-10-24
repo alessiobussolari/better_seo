@@ -290,9 +290,9 @@ RSpec.describe BetterSeo::StructuredData::Event do
   describe "method chaining" do
     it "supports fluent interface" do
       event = described_class.new
-        .name("Tech Conference")
-        .start_date("2024-06-15T09:00:00Z")
-        .end_date("2024-06-15T17:00:00Z")
+                             .name("Tech Conference")
+                             .start_date("2024-06-15T09:00:00Z")
+                             .end_date("2024-06-15T17:00:00Z")
 
       expect(event.to_h["name"]).to eq("Tech Conference")
       expect(event.to_h["startDate"]).to eq("2024-06-15T09:00:00Z")
@@ -327,7 +327,7 @@ RSpec.describe BetterSeo::StructuredData::Event do
       expect(script_tag).to include('<script type="application/ld+json">')
       expect(script_tag).to include('"@type": "Event"')
       expect(script_tag).to include('"name": "Tech Conference"')
-      expect(script_tag).to include('</script>')
+      expect(script_tag).to include("</script>")
     end
   end
 
@@ -338,9 +338,9 @@ RSpec.describe BetterSeo::StructuredData::Event do
       event.description("Join us for the premier AI conference")
       event.url("https://techconf.com/2024")
       event.image([
-        "https://techconf.com/images/event-banner.jpg",
-        "https://techconf.com/images/venue.jpg"
-      ])
+                    "https://techconf.com/images/event-banner.jpg",
+                    "https://techconf.com/images/venue.jpg"
+                  ])
       event.start_date("2024-06-15T09:00:00-07:00")
       event.end_date("2024-06-17T17:00:00-07:00")
       event.event_status("EventScheduled")
@@ -362,22 +362,22 @@ RSpec.describe BetterSeo::StructuredData::Event do
         url: "https://techeventsglobal.com"
       )
       event.offers([
-        {
-          name: "Early Bird Ticket",
-          price: 299.99,
-          price_currency: "USD",
-          valid_from: "2024-01-01",
-          valid_through: "2024-03-31",
-          availability: "InStock"
-        },
-        {
-          name: "Regular Ticket",
-          price: 499.99,
-          price_currency: "USD",
-          valid_from: "2024-04-01",
-          availability: "InStock"
-        }
-      ])
+                     {
+                       name: "Early Bird Ticket",
+                       price: 299.99,
+                       price_currency: "USD",
+                       valid_from: "2024-01-01",
+                       valid_through: "2024-03-31",
+                       availability: "InStock"
+                     },
+                     {
+                       name: "Regular Ticket",
+                       price: 499.99,
+                       price_currency: "USD",
+                       valid_from: "2024-04-01",
+                       availability: "InStock"
+                     }
+                   ])
 
       hash = event.to_h
 

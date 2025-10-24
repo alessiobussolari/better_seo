@@ -72,10 +72,10 @@ RSpec.describe BetterSeo::Sitemap::Builder do
     it "adds multiple URLs at once from array of strings" do
       builder = described_class.new
       builder.add_urls([
-        "https://example.com",
-        "https://example.com/about",
-        "https://example.com/contact"
-      ])
+                         "https://example.com",
+                         "https://example.com/about",
+                         "https://example.com/contact"
+                       ])
 
       expect(builder.urls.size).to eq(3)
     end
@@ -123,9 +123,9 @@ RSpec.describe BetterSeo::Sitemap::Builder do
       builder = described_class.new
       builder.add_url("https://example.com")
 
-      expect {
+      expect do
         builder.remove_url("https://other.com")
-      }.not_to change { builder.urls.size }
+      end.not_to(change { builder.urls.size })
     end
   end
 
@@ -208,18 +208,18 @@ RSpec.describe BetterSeo::Sitemap::Builder do
       builder.add_url("https://example.com")
       builder.add_url("not-a-url")
 
-      expect {
+      expect do
         builder.validate!
-      }.to raise_error(BetterSeo::ValidationError, /Invalid URL format/)
+      end.to raise_error(BetterSeo::ValidationError, /Invalid URL format/)
     end
 
     it "raises error if URL is missing" do
       builder = described_class.new
       builder.add_url("")
 
-      expect {
+      expect do
         builder.validate!
-      }.to raise_error(BetterSeo::ValidationError, /Location is required/)
+      end.to raise_error(BetterSeo::ValidationError, /Location is required/)
     end
 
     it "returns true when all URLs are valid" do
@@ -262,10 +262,7 @@ RSpec.describe BetterSeo::Sitemap::Builder do
       builder.add_url("https://example.com")
       builder.add_url("https://example.com/about")
 
-      urls = []
-      builder.each do |url|
-        urls << url.loc
-      end
+      urls = builder.map(&:loc)
 
       expect(urls).to eq(["https://example.com", "https://example.com/about"])
     end

@@ -9,9 +9,9 @@ RSpec.describe "BetterSeo Error Classes" do
     end
 
     it "can be raised with a message" do
-      expect {
+      expect do
         raise BetterSeo::Error, "test error"
-      }.to raise_error(BetterSeo::Error, "test error")
+      end.to raise_error(BetterSeo::Error, "test error")
     end
   end
 
@@ -21,9 +21,9 @@ RSpec.describe "BetterSeo Error Classes" do
     end
 
     it "can be raised with a message" do
-      expect {
+      expect do
         raise BetterSeo::ConfigurationError, "config error"
-      }.to raise_error(BetterSeo::ConfigurationError, "config error")
+      end.to raise_error(BetterSeo::ConfigurationError, "config error")
     end
   end
 
@@ -33,9 +33,9 @@ RSpec.describe "BetterSeo Error Classes" do
     end
 
     it "can be raised with a message" do
-      expect {
+      expect do
         raise BetterSeo::ValidationError, "validation error"
-      }.to raise_error(BetterSeo::ValidationError, "validation error")
+      end.to raise_error(BetterSeo::ValidationError, "validation error")
     end
   end
 
@@ -45,9 +45,9 @@ RSpec.describe "BetterSeo Error Classes" do
     end
 
     it "can be raised with a message" do
-      expect {
+      expect do
         raise BetterSeo::DSLError, "dsl error"
-      }.to raise_error(BetterSeo::DSLError, "dsl error")
+      end.to raise_error(BetterSeo::DSLError, "dsl error")
     end
   end
 
@@ -57,9 +57,9 @@ RSpec.describe "BetterSeo Error Classes" do
     end
 
     it "can be raised with a message" do
-      expect {
+      expect do
         raise BetterSeo::InvalidBuilderError, "invalid builder"
-      }.to raise_error(BetterSeo::InvalidBuilderError, "invalid builder")
+      end.to raise_error(BetterSeo::InvalidBuilderError, "invalid builder")
     end
   end
 
@@ -69,9 +69,9 @@ RSpec.describe "BetterSeo Error Classes" do
     end
 
     it "can be raised with a message" do
-      expect {
+      expect do
         raise BetterSeo::GeneratorError, "generator error"
-      }.to raise_error(BetterSeo::GeneratorError, "generator error")
+      end.to raise_error(BetterSeo::GeneratorError, "generator error")
     end
   end
 
@@ -81,9 +81,9 @@ RSpec.describe "BetterSeo Error Classes" do
     end
 
     it "can be raised with a message" do
-      expect {
+      expect do
         raise BetterSeo::TemplateNotFoundError, "template not found"
-      }.to raise_error(BetterSeo::TemplateNotFoundError, "template not found")
+      end.to raise_error(BetterSeo::TemplateNotFoundError, "template not found")
     end
   end
 
@@ -93,9 +93,9 @@ RSpec.describe "BetterSeo Error Classes" do
     end
 
     it "can be raised with a message" do
-      expect {
+      expect do
         raise BetterSeo::ValidatorError, "validator error"
-      }.to raise_error(BetterSeo::ValidatorError, "validator error")
+      end.to raise_error(BetterSeo::ValidatorError, "validator error")
     end
   end
 
@@ -105,9 +105,9 @@ RSpec.describe "BetterSeo Error Classes" do
     end
 
     it "can be raised with a message" do
-      expect {
+      expect do
         raise BetterSeo::InvalidDataError, "invalid data"
-      }.to raise_error(BetterSeo::InvalidDataError, "invalid data")
+      end.to raise_error(BetterSeo::InvalidDataError, "invalid data")
     end
   end
 
@@ -117,9 +117,9 @@ RSpec.describe "BetterSeo Error Classes" do
     end
 
     it "can be raised with a message" do
-      expect {
+      expect do
         raise BetterSeo::ImageError, "image error"
-      }.to raise_error(BetterSeo::ImageError, "image error")
+      end.to raise_error(BetterSeo::ImageError, "image error")
     end
   end
 
@@ -129,9 +129,9 @@ RSpec.describe "BetterSeo Error Classes" do
     end
 
     it "can be raised with a message" do
-      expect {
+      expect do
         raise BetterSeo::ImageConversionError, "conversion error"
-      }.to raise_error(BetterSeo::ImageConversionError, "conversion error")
+      end.to raise_error(BetterSeo::ImageConversionError, "conversion error")
     end
   end
 
@@ -141,9 +141,9 @@ RSpec.describe "BetterSeo Error Classes" do
     end
 
     it "can be raised with a message" do
-      expect {
+      expect do
         raise BetterSeo::ImageValidationError, "image validation error"
-      }.to raise_error(BetterSeo::ImageValidationError, "image validation error")
+      end.to raise_error(BetterSeo::ImageValidationError, "image validation error")
     end
   end
 
@@ -153,9 +153,9 @@ RSpec.describe "BetterSeo Error Classes" do
     end
 
     it "can be raised with a message" do
-      expect {
+      expect do
         raise BetterSeo::I18nError, "i18n error"
-      }.to raise_error(BetterSeo::I18nError, "i18n error")
+      end.to raise_error(BetterSeo::I18nError, "i18n error")
     end
   end
 
@@ -165,9 +165,9 @@ RSpec.describe "BetterSeo Error Classes" do
     end
 
     it "can be raised with a message" do
-      expect {
+      expect do
         raise BetterSeo::MissingTranslationError, "missing translation"
-      }.to raise_error(BetterSeo::MissingTranslationError, "missing translation")
+      end.to raise_error(BetterSeo::MissingTranslationError, "missing translation")
     end
   end
 end

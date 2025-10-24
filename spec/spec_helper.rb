@@ -27,7 +27,7 @@ RSpec.configure do |config|
   end
 
   # Reset BetterSeo configuration before each test
-  config.before(:each) do
+  config.before do
     BetterSeo.reset_configuration! if BetterSeo.respond_to?(:reset_configuration!)
   end
 

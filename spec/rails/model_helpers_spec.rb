@@ -173,7 +173,7 @@ RSpec.describe BetterSeo::Rails::ModelHelpers do
       article = article_class.new(
         title: "Ruby on Rails Guide",
         excerpt: "Complete guide to Rails development",
-        tags: ["ruby", "rails", "tutorial"],
+        tags: %w[ruby rails tutorial],
         author_name: "Jane Doe",
         featured_image: "rails-guide.jpg",
         slug: "ruby-on-rails-guide"
@@ -188,13 +188,13 @@ RSpec.describe BetterSeo::Rails::ModelHelpers do
 
       hash = article.to_seo_hash
       expect(hash).to eq({
-        title: "Ruby on Rails Guide | My Blog",
-        description: "Complete guide to Rails development",
-        keywords: "ruby, rails, tutorial",
-        author: "Jane Doe",
-        image: "https://cdn.example.com/rails-guide.jpg",
-        canonical: "https://myblog.com/articles/ruby-on-rails-guide"
-      })
+                           title: "Ruby on Rails Guide | My Blog",
+                           description: "Complete guide to Rails development",
+                           keywords: "ruby, rails, tutorial",
+                           author: "Jane Doe",
+                           image: "https://cdn.example.com/rails-guide.jpg",
+                           canonical: "https://myblog.com/articles/ruby-on-rails-guide"
+                         })
     end
   end
 end

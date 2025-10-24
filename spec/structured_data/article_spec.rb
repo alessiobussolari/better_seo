@@ -42,13 +42,13 @@ RSpec.describe BetterSeo::StructuredData::Article do
     it "sets image as array" do
       article = described_class.new
       article.image([
-        "https://example.com/image1.jpg",
-        "https://example.com/image2.jpg"
-      ])
+                      "https://example.com/image1.jpg",
+                      "https://example.com/image2.jpg"
+                    ])
       expect(article.get(:image)).to eq([
-        "https://example.com/image1.jpg",
-        "https://example.com/image2.jpg"
-      ])
+                                          "https://example.com/image1.jpg",
+                                          "https://example.com/image2.jpg"
+                                        ])
     end
 
     it "sets author as string" do
@@ -101,8 +101,8 @@ RSpec.describe BetterSeo::StructuredData::Article do
 
     it "sets keywords as array" do
       article = described_class.new
-      article.keywords(["ruby", "rails", "seo"])
-      expect(article.get(:keywords)).to eq(["ruby", "rails", "seo"])
+      article.keywords(%w[ruby rails seo])
+      expect(article.get(:keywords)).to eq(%w[ruby rails seo])
     end
 
     it "sets article_section" do
@@ -114,9 +114,9 @@ RSpec.describe BetterSeo::StructuredData::Article do
     it "allows method chaining" do
       article = described_class.new
       result = article
-        .headline("Test")
-        .author("John Doe")
-        .date_published("2024-01-15")
+               .headline("Test")
+               .author("John Doe")
+               .date_published("2024-01-15")
 
       expect(result).to eq(article)
       expect(article.get(:headline)).to eq("Test")
@@ -181,10 +181,10 @@ RSpec.describe BetterSeo::StructuredData::Article do
       article = described_class.new
       article.headline("Test")
       article.image([
-        "https://example.com/img1.jpg",
-        "https://example.com/img2.jpg",
-        "https://example.com/img3.jpg"
-      ])
+                      "https://example.com/img1.jpg",
+                      "https://example.com/img2.jpg",
+                      "https://example.com/img3.jpg"
+                    ])
 
       hash = article.to_h
       expect(hash["image"]).to be_a(Array)
@@ -204,7 +204,7 @@ RSpec.describe BetterSeo::StructuredData::Article do
       expect(tag).to include('<script type="application/ld+json">')
       expect(tag).to include('"@type": "Article"')
       expect(tag).to include('"headline": "Test Article"')
-      expect(tag).to include('</script>')
+      expect(tag).to include("</script>")
     end
   end
 
@@ -226,9 +226,9 @@ RSpec.describe BetterSeo::StructuredData::Article do
       article.headline("The Future of Ruby on Rails in 2024")
       article.description("An in-depth look at Ruby on Rails trends and innovations")
       article.image([
-        "https://example.com/images/rails-future-1.jpg",
-        "https://example.com/images/rails-future-2.jpg"
-      ])
+                      "https://example.com/images/rails-future-1.jpg",
+                      "https://example.com/images/rails-future-2.jpg"
+                    ])
       article.author(author)
       article.publisher(publisher)
       article.date_published("2024-01-15T09:00:00Z")

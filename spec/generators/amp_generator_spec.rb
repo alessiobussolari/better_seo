@@ -55,18 +55,18 @@ RSpec.describe BetterSeo::Generators::AmpGenerator do
       generator = described_class.new
       boilerplate = generator.to_boilerplate
 
-      expect(boilerplate).to include('<style amp-boilerplate>')
-      expect(boilerplate).to include('-amp-start 8s steps(1,end)')
-      expect(boilerplate).to include('</style>')
+      expect(boilerplate).to include("<style amp-boilerplate>")
+      expect(boilerplate).to include("-amp-start 8s steps(1,end)")
+      expect(boilerplate).to include("</style>")
     end
 
     it "generates noscript boilerplate" do
       generator = described_class.new
       boilerplate = generator.to_boilerplate
 
-      expect(boilerplate).to include('<noscript>')
-      expect(boilerplate).to include('<style amp-boilerplate>')
-      expect(boilerplate).to include('</noscript>')
+      expect(boilerplate).to include("<noscript>")
+      expect(boilerplate).to include("<style amp-boilerplate>")
+      expect(boilerplate).to include("</noscript>")
     end
   end
 
@@ -132,7 +132,7 @@ RSpec.describe BetterSeo::Generators::AmpGenerator do
       expect(script).to include('<script type="application/ld+json">')
       expect(script).to include('"@type":"Article"')
       expect(script).to include('"headline":"Test Article"')
-      expect(script).to include('</script>')
+      expect(script).to include("</script>")
     end
 
     it "returns empty string when no structured data" do
@@ -158,9 +158,9 @@ RSpec.describe BetterSeo::Generators::AmpGenerator do
       css = "body { font-family: Arial; }"
       result = generator.to_custom_css(css)
 
-      expect(result).to include('<style amp-custom>')
-      expect(result).to include('body { font-family: Arial; }')
-      expect(result).to include('</style>')
+      expect(result).to include("<style amp-custom>")
+      expect(result).to include("body { font-family: Arial; }")
+      expect(result).to include("</style>")
     end
 
     it "returns empty string when no CSS provided" do

@@ -3,6 +3,8 @@
 require "spec_helper"
 
 RSpec.describe BetterSeo::Generators::TwitterCardsGenerator do
+  subject(:generator) { described_class.new(config) }
+
   let(:config) do
     {
       card: "summary_large_image",
@@ -14,8 +16,6 @@ RSpec.describe BetterSeo::Generators::TwitterCardsGenerator do
       image_alt: "Image description for accessibility"
     }
   end
-
-  subject(:generator) { described_class.new(config) }
 
   describe "#initialize" do
     it "accepts configuration hash" do
@@ -177,10 +177,10 @@ RSpec.describe BetterSeo::Generators::TwitterCardsGenerator do
   describe "HTML escaping" do
     it "escapes special characters in content" do
       gen = described_class.new({
-        card: "summary",
-        title: 'Title with "quotes" & <tags>',
-        description: "Description"
-      })
+                                  card: "summary",
+                                  title: 'Title with "quotes" & <tags>',
+                                  description: "Description"
+                                })
       html = gen.generate
       expect(html).to include("&quot;")
       expect(html).to include("&lt;")

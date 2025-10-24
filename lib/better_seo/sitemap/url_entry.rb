@@ -28,13 +28,13 @@ module BetterSeo
         unless VALID_CHANGEFREQ.include?(value)
           raise ValidationError, "Invalid changefreq: #{value}. Must be one of: #{VALID_CHANGEFREQ.join(", ")}"
         end
+
         @changefreq = value
       end
 
       def priority=(value)
-        unless value.between?(0.0, 1.0)
-          raise ValidationError, "Priority must be between 0.0 and 1.0"
-        end
+        raise ValidationError, "Priority must be between 0.0 and 1.0" unless value.between?(0.0, 1.0)
+
         @priority = value
       end
 
@@ -119,9 +119,7 @@ module BetterSeo
 
         begin
           uri = URI.parse(@loc)
-          unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-            raise ValidationError, "Invalid URL format: #{@loc}"
-          end
+          raise ValidationError, "Invalid URL format: #{@loc}" unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
         rescue URI::InvalidURIError
           raise ValidationError, "Invalid URL format: #{@loc}"
         end
@@ -146,11 +144,11 @@ module BetterSeo
 
       def escape_xml(text)
         text.to_s
-          .gsub("&", "&amp;")
-          .gsub("<", "&lt;")
-          .gsub(">", "&gt;")
-          .gsub('"', "&quot;")
-          .gsub("'", "&apos;")
+            .gsub("&", "&amp;")
+            .gsub("<", "&lt;")
+            .gsub(">", "&gt;")
+            .gsub('"', "&quot;")
+            .gsub("'", "&apos;")
       end
     end
   end

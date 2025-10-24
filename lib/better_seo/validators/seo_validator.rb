@@ -13,30 +13,37 @@ module BetterSeo
 
         length = title.length
 
-        if length >= TITLE_MIN_LENGTH && length <= TITLE_MAX_LENGTH
+        if length.between?(TITLE_MIN_LENGTH, TITLE_MAX_LENGTH)
           { valid: true, score: 100, message: "Title length is optimal", length: length }
         elsif length < TITLE_MIN_LENGTH
           score = (length.to_f / TITLE_MIN_LENGTH * 70).to_i
-          { valid: false, score: score, message: "Title is too short (minimum #{TITLE_MIN_LENGTH} characters recommended)", length: length }
+          { valid: false, score: score,
+            message: "Title is too short (minimum #{TITLE_MIN_LENGTH} characters recommended)", length: length }
         else
-          score = [100 - (length - TITLE_MAX_LENGTH) * 2, 50].max
-          { valid: false, score: score, message: "Title is too long (maximum #{TITLE_MAX_LENGTH} characters recommended)", length: length }
+          score = [100 - ((length - TITLE_MAX_LENGTH) * 2), 50].max
+          { valid: false, score: score,
+            message: "Title is too long (maximum #{TITLE_MAX_LENGTH} characters recommended)", length: length }
         end
       end
 
       def check_description(description)
-        return { valid: false, score: 0, message: "Description is required", length: 0 } if description.nil? || description.empty?
+        if description.nil? || description.empty?
+          return { valid: false, score: 0, message: "Description is required",
+                   length: 0 }
+        end
 
         length = description.length
 
-        if length >= DESCRIPTION_MIN_LENGTH && length <= DESCRIPTION_MAX_LENGTH
+        if length.between?(DESCRIPTION_MIN_LENGTH, DESCRIPTION_MAX_LENGTH)
           { valid: true, score: 100, message: "Description length is optimal", length: length }
         elsif length < DESCRIPTION_MIN_LENGTH
           score = (length.to_f / DESCRIPTION_MIN_LENGTH * 70).to_i
-          { valid: false, score: score, message: "Description is too short (minimum #{DESCRIPTION_MIN_LENGTH} characters recommended)", length: length }
+          { valid: false, score: score,
+            message: "Description is too short (minimum #{DESCRIPTION_MIN_LENGTH} characters recommended)", length: length }
         else
           score = [100 - (length - DESCRIPTION_MAX_LENGTH), 50].max
-          { valid: false, score: score, message: "Description is too long (maximum #{DESCRIPTION_MAX_LENGTH} characters recommended)", length: length }
+          { valid: false, score: score,
+            message: "Description is too long (maximum #{DESCRIPTION_MAX_LENGTH} characters recommended)", length: length }
         end
       end
 
@@ -57,11 +64,11 @@ module BetterSeo
           total_headings: total
         }
 
-        if h1_count == 0
+        if h1_count.zero?
           result.merge(valid: false, score: 50, message: "Missing H1 heading (exactly one H1 required)")
         elsif h1_count > 1
           result.merge(valid: false, score: 70, message: "Multiple H1 headings found (only one H1 recommended)")
-        elsif total == 0
+        elsif total.zero?
           result.merge(valid: false, score: 0, message: "No headings found")
         else
           result.merge(valid: true, score: 100, message: "Heading structure is optimal")
@@ -73,7 +80,10 @@ module BetterSeo
         images = html.scan(/<img[^>]*>/)
         total = images.size
 
-        return { valid: true, score: 100, total_images: 0, images_with_alt: 0, images_without_alt: 0, message: "No images to validate" } if total.zero?
+        if total.zero?
+          return { valid: true, score: 100, total_images: 0, images_with_alt: 0, images_without_alt: 0,
+                   message: "No images to validate" }
+        end
 
         # Count images with alt text
         images_with_alt = images.count { |img| img =~ /alt=["'][^"']+["']/ }
@@ -95,7 +105,7 @@ module BetterSeo
 
       def validate_page(html)
         # Extract title
-        title_match = html.match(/<title[^>]*>(.*?)<\/title>/m)
+        title_match = html.match(%r{<title[^>]*>(.*?)</title>}m)
         title = title_match ? title_match[1].strip : nil
 
         # Extract meta description
@@ -110,10 +120,10 @@ module BetterSeo
 
         # Calculate overall score (weighted average)
         overall_score = (
-          title_result[:score] * 0.3 +
-          description_result[:score] * 0.3 +
-          headings_result[:score] * 0.2 +
-          images_result[:score] * 0.2
+          (title_result[:score] * 0.3) +
+          (description_result[:score] * 0.3) +
+          (headings_result[:score] * 0.2) +
+          (images_result[:score] * 0.2)
         ).to_i
 
         # Collect issues
@@ -135,16 +145,16 @@ module BetterSeo
 
       def generate_report(validation)
         report = []
-        report << "=" * 60
+        report << ("=" * 60)
         report << "SEO Validation Report"
-        report << "=" * 60
+        report << ("=" * 60)
         report << ""
         report << "Overall Score: #{validation[:overall_score]}/100"
         report << ""
 
         # Title section
         report << "Title:"
-        report << "  Status: #{validation[:title][:valid] ? '✓' : '✗'}"
+        report << "  Status: #{validation[:title][:valid] ? "✓" : "✗"}"
         report << "  Score: #{validation[:title][:score]}/100"
         report << "  Length: #{validation[:title][:length]} chars"
         report << "  Message: #{validation[:title][:message]}"
@@ -152,7 +162,7 @@ module BetterSeo
 
         # Description section
         report << "Description:"
-        report << "  Status: #{validation[:description][:valid] ? '✓' : '✗'}"
+        report << "  Status: #{validation[:description][:valid] ? "✓" : "✗"}"
         report << "  Score: #{validation[:description][:score]}/100"
         report << "  Length: #{validation[:description][:length]} chars"
         report << "  Message: #{validation[:description][:message]}"
@@ -160,7 +170,7 @@ module BetterSeo
 
         # Headings section
         report << "Headings:"
-        report << "  Status: #{validation[:headings][:valid] ? '✓' : '✗'}"
+        report << "  Status: #{validation[:headings][:valid] ? "✓" : "✗"}"
         report << "  Score: #{validation[:headings][:score]}/100"
         report << "  H1 Count: #{validation[:headings][:h1_count]}"
         report << "  Total Headings: #{validation[:headings][:total_headings]}"
@@ -169,7 +179,7 @@ module BetterSeo
 
         # Images section
         report << "Images:"
-        report << "  Status: #{validation[:images][:valid] ? '✓' : '✗'}"
+        report << "  Status: #{validation[:images][:valid] ? "✓" : "✗"}"
         report << "  Score: #{validation[:images][:score]}/100"
         report << "  Total Images: #{validation[:images][:total_images]}"
         report << "  With Alt: #{validation[:images][:images_with_alt]}"
@@ -186,7 +196,7 @@ module BetterSeo
           report << ""
         end
 
-        report << "=" * 60
+        report << ("=" * 60)
 
         report.join("\n")
       end

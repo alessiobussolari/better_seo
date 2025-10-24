@@ -20,7 +20,7 @@ RSpec.describe BetterSeo::DSL::MetaTags do
       it "sets title with argument" do
         result = meta_tags.title("My Page Title")
         expect(meta_tags.get(:title)).to eq("My Page Title")
-        expect(result).to eq(meta_tags)  # Returns self for chaining
+        expect(result).to eq(meta_tags) # Returns self for chaining
       end
     end
 
@@ -61,25 +61,25 @@ RSpec.describe BetterSeo::DSL::MetaTags do
     context "when setting values" do
       it "sets keywords from multiple arguments" do
         result = meta_tags.keywords("seo", "ruby", "rails")
-        expect(meta_tags.get(:keywords)).to eq(["seo", "ruby", "rails"])
+        expect(meta_tags.get(:keywords)).to eq(%w[seo ruby rails])
         expect(result).to eq(meta_tags)
       end
 
       it "sets keywords from array" do
-        meta_tags.keywords(["web", "development"])
-        expect(meta_tags.get(:keywords)).to eq(["web", "development"])
+        meta_tags.keywords(%w[web development])
+        expect(meta_tags.get(:keywords)).to eq(%w[web development])
       end
 
       it "flattens nested arrays" do
-        meta_tags.keywords("seo", ["ruby", "rails"], "web")
-        expect(meta_tags.get(:keywords)).to eq(["seo", "ruby", "rails", "web"])
+        meta_tags.keywords("seo", %w[ruby rails], "web")
+        expect(meta_tags.get(:keywords)).to eq(%w[seo ruby rails web])
       end
     end
 
     context "when getting values" do
       it "returns keywords without arguments" do
-        meta_tags.set(:keywords, ["test", "keywords"])
-        expect(meta_tags.keywords).to eq(["test", "keywords"])
+        meta_tags.set(:keywords, %w[test keywords])
+        expect(meta_tags.keywords).to eq(%w[test keywords])
       end
 
       it "returns nil if not set" do
@@ -116,11 +116,11 @@ RSpec.describe BetterSeo::DSL::MetaTags do
     it "accepts additional options" do
       meta_tags.robots(index: true, follow: true, noarchive: true, noimageindex: true)
       expect(meta_tags.get(:robots)).to eq({
-        index: true,
-        follow: true,
-        noarchive: true,
-        noimageindex: true
-      })
+                                             index: true,
+                                             follow: true,
+                                             noarchive: true,
+                                             noimageindex: true
+                                           })
     end
 
     it "returns self for chaining" do
@@ -177,7 +177,7 @@ RSpec.describe BetterSeo::DSL::MetaTags do
 
       expect(result[:title]).to eq("Test Title")
       expect(result[:description]).to eq("Test Description")
-      expect(result[:keywords]).to eq(["ruby", "rails"])
+      expect(result[:keywords]).to eq(%w[ruby rails])
       expect(result[:author]).to eq("John Doe")
       expect(result[:canonical]).to eq("https://example.com")
       expect(result[:robots]).to eq({ index: true, follow: false })
@@ -202,24 +202,24 @@ RSpec.describe BetterSeo::DSL::MetaTags do
     context "with invalid data" do
       it "raises error when title is too long" do
         meta_tags.title("A" * 80)
-        expect {
+        expect do
           meta_tags.send(:validate!)
-        }.to raise_error(BetterSeo::ValidationError, /Title too long/)
+        end.to raise_error(BetterSeo::ValidationError, /Title too long/)
       end
 
       it "raises error when description is too long" do
         meta_tags.description("A" * 200)
-        expect {
+        expect do
           meta_tags.send(:validate!)
-        }.to raise_error(BetterSeo::ValidationError, /Description too long/)
+        end.to raise_error(BetterSeo::ValidationError, /Description too long/)
       end
 
       it "raises error with both title and description too long" do
         meta_tags.title("A" * 80)
         meta_tags.description("A" * 200)
-        expect {
+        expect do
           meta_tags.send(:validate!)
-        }.to raise_error(BetterSeo::ValidationError, /Title too long.*Description too long/)
+        end.to raise_error(BetterSeo::ValidationError, /Title too long.*Description too long/)
       end
     end
   end
@@ -227,19 +227,19 @@ RSpec.describe BetterSeo::DSL::MetaTags do
   describe "method chaining" do
     it "supports fluent interface" do
       result = meta_tags
-        .title("Chained Title")
-        .description("Chained Description")
-        .keywords("ruby", "rails")
-        .author("Jane Doe")
-        .canonical("https://example.com/chain")
-        .robots(index: true, follow: true)
-        .viewport
-        .charset
+               .title("Chained Title")
+               .description("Chained Description")
+               .keywords("ruby", "rails")
+               .author("Jane Doe")
+               .canonical("https://example.com/chain")
+               .robots(index: true, follow: true)
+               .viewport
+               .charset
 
       expect(result).to eq(meta_tags)
       expect(meta_tags.title).to eq("Chained Title")
       expect(meta_tags.description).to eq("Chained Description")
-      expect(meta_tags.keywords).to eq(["ruby", "rails"])
+      expect(meta_tags.keywords).to eq(%w[ruby rails])
       expect(meta_tags.author).to eq("Jane Doe")
       expect(meta_tags.canonical).to eq("https://example.com/chain")
     end

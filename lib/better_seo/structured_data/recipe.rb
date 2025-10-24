@@ -79,7 +79,8 @@ module BetterSeo
       end
 
       # Nutrition information
-      def nutrition(calories: nil, fat_content: nil, carbohydrate_content: nil, protein_content: nil, sugar_content: nil, **other)
+      def nutrition(calories: nil, fat_content: nil, carbohydrate_content: nil, protein_content: nil,
+                    sugar_content: nil, **other)
         nutrition_hash = {
           "@type" => "NutritionInformation"
         }
@@ -114,9 +115,7 @@ module BetterSeo
       def to_h
         hash = super
 
-        if @ingredients.any?
-          hash["recipeIngredient"] = @ingredients
-        end
+        hash["recipeIngredient"] = @ingredients if @ingredients.any?
 
         if @instructions.any?
           hash["recipeInstructions"] = @instructions.map.with_index(1) do |instruction, index|

@@ -58,9 +58,9 @@ RSpec.describe BetterSeo::DSL::Base do
 
       expect(builder.get(:title)).to eq("Main Title")
       expect(builder.get(:open_graph)).to eq({
-        title: "OG Title",
-        image: "https://example.com/image.jpg"
-      })
+                                               title: "OG Title",
+                                               image: "https://example.com/image.jpg"
+                                             })
     end
 
     it "supports deeply nested blocks" do
@@ -111,16 +111,16 @@ RSpec.describe BetterSeo::DSL::Base do
       result = builder.build
 
       expect(result).to eq({
-        title: "Title",
-        description: "Description"
-      })
+                             title: "Title",
+                             description: "Description"
+                           })
     end
 
     it "returns a copy of config" do
       result = builder.build
       result[:title] = "Modified"
 
-      expect(builder.title).to eq("Title")  # Original unchanged
+      expect(builder.title).to eq("Title") # Original unchanged
     end
 
     it "calls validate! before returning" do
@@ -154,11 +154,11 @@ RSpec.describe BetterSeo::DSL::Base do
     end
 
     it "merges hash configuration" do
-      builder.merge!(description: "New Description", keywords: ["seo", "ruby"])
+      builder.merge!(description: "New Description", keywords: %w[seo ruby])
 
-      expect(builder.title).to eq("Original Title")  # Preserved
-      expect(builder.description).to eq("New Description")  # Updated
-      expect(builder.keywords).to eq(["seo", "ruby"])  # Added
+      expect(builder.title).to eq("Original Title") # Preserved
+      expect(builder.description).to eq("New Description") # Updated
+      expect(builder.keywords).to eq(%w[seo ruby]) # Added
     end
 
     it "merges another builder" do
@@ -169,7 +169,7 @@ RSpec.describe BetterSeo::DSL::Base do
       builder.merge!(other)
 
       expect(builder.title).to eq("Other Title")
-      expect(builder.description).to eq("Original Description")  # Preserved
+      expect(builder.description).to eq("Original Description") # Preserved
       expect(builder.author).to eq("Other Author")
     end
 
@@ -179,9 +179,9 @@ RSpec.describe BetterSeo::DSL::Base do
     end
 
     it "raises error when merging invalid object" do
-      expect {
+      expect do
         builder.merge!("invalid")
-      }.to raise_error(BetterSeo::DSLError, /Cannot merge/)
+      end.to raise_error(BetterSeo::DSLError, /Cannot merge/)
     end
   end
 
@@ -199,9 +199,9 @@ RSpec.describe BetterSeo::DSL::Base do
 
       custom_builder = custom_class.new
 
-      expect {
+      expect do
         custom_builder.build
-      }.to raise_error(BetterSeo::ValidationError, /Custom validation/)
+      end.to raise_error(BetterSeo::ValidationError, /Custom validation/)
     end
   end
 

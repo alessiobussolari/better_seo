@@ -23,10 +23,8 @@ module BetterSeo
         return get(:image) if value.nil?
 
         if value.is_a?(Hash)
-          set(:image, value)
-        else
-          set(:image, value)
         end
+        set(:image, value)
       end
 
       def site_name(value = nil)
@@ -55,10 +53,8 @@ module BetterSeo
         return get(:video) if value.nil?
 
         if value.is_a?(Hash)
-          set(:video, value)
-        else
-          set(:video, value)
         end
+        set(:video, value)
       end
 
       def audio(value = nil)

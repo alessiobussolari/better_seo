@@ -3,6 +3,8 @@
 require "spec_helper"
 
 RSpec.describe BetterSeo::Generators::OpenGraphGenerator do
+  subject(:generator) { described_class.new(config) }
+
   let(:config) do
     {
       title: "My Open Graph Title",
@@ -12,11 +14,9 @@ RSpec.describe BetterSeo::Generators::OpenGraphGenerator do
       image: "https://example.com/og-image.jpg",
       site_name: "My Awesome Site",
       locale: "en_US",
-      locale_alternate: ["it_IT", "fr_FR"]
+      locale_alternate: %w[it_IT fr_FR]
     }
   end
-
-  subject(:generator) { described_class.new(config) }
 
   describe "#initialize" do
     it "accepts configuration hash" do
@@ -134,7 +134,7 @@ RSpec.describe BetterSeo::Generators::OpenGraphGenerator do
           modified_time: "2024-01-02T00:00:00Z",
           expiration_time: "2024-12-31T23:59:59Z",
           section: "Technology",
-          tag: ["Ruby", "SEO", "Rails"]
+          tag: %w[Ruby SEO Rails]
         }
       }
     end
@@ -222,11 +222,11 @@ RSpec.describe BetterSeo::Generators::OpenGraphGenerator do
   describe "HTML escaping" do
     it "escapes special characters in content" do
       gen = described_class.new({
-        title: 'Title with "quotes" & <tags>',
-        type: "website",
-        url: "https://example.com",
-        image: "https://example.com/img.jpg"
-      })
+                                  title: 'Title with "quotes" & <tags>',
+                                  type: "website",
+                                  url: "https://example.com",
+                                  image: "https://example.com/img.jpg"
+                                })
       html = gen.generate
       expect(html).to include("&quot;")
       expect(html).to include("&lt;")

@@ -140,7 +140,7 @@ RSpec.describe BetterSeo::StructuredData::LocalBusiness do
     it "sets opening hours specification with structured data" do
       spec = {
         "@type" => "OpeningHoursSpecification",
-        "dayOfWeek" => ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "dayOfWeek" => %w[Monday Tuesday Wednesday Thursday Friday],
         "opens" => "09:00",
         "closes" => "17:00"
       }
@@ -189,17 +189,17 @@ RSpec.describe BetterSeo::StructuredData::LocalBusiness do
     end
 
     it "sets serves cuisine as array" do
-      business.serves_cuisine(["Italian", "Pizza", "Pasta"])
-      expect(business.to_h["servesCuisine"]).to eq(["Italian", "Pizza", "Pasta"])
+      business.serves_cuisine(%w[Italian Pizza Pasta])
+      expect(business.to_h["servesCuisine"]).to eq(%w[Italian Pizza Pasta])
     end
   end
 
   describe "method chaining" do
     it "supports fluent interface" do
       business = described_class.new
-        .name("Joe's Pizza")
-        .telephone("+1-555-0100")
-        .price_range("$$")
+                                .name("Joe's Pizza")
+                                .telephone("+1-555-0100")
+                                .price_range("$$")
 
       expect(business.to_h["name"]).to eq("Joe's Pizza")
       expect(business.to_h["telephone"]).to eq("+1-555-0100")
@@ -236,7 +236,7 @@ RSpec.describe BetterSeo::StructuredData::LocalBusiness do
       expect(script_tag).to include('<script type="application/ld+json">')
       expect(script_tag).to include('"@type": "LocalBusiness"')
       expect(script_tag).to include('"name": "Joe\'s Pizza"')
-      expect(script_tag).to include('</script>')
+      expect(script_tag).to include("</script>")
     end
   end
 
@@ -249,11 +249,11 @@ RSpec.describe BetterSeo::StructuredData::LocalBusiness do
       business.telephone("+1-555-0100")
       business.email("info@joespizza.com")
       business.image([
-        "https://joespizza.com/images/storefront.jpg",
-        "https://joespizza.com/images/pizza.jpg"
-      ])
+                       "https://joespizza.com/images/storefront.jpg",
+                       "https://joespizza.com/images/pizza.jpg"
+                     ])
       business.price_range("$$")
-      business.serves_cuisine(["Italian", "Pizza"])
+      business.serves_cuisine(%w[Italian Pizza])
       business.address(
         street: "123 Main Street",
         city: "New York",
@@ -263,10 +263,10 @@ RSpec.describe BetterSeo::StructuredData::LocalBusiness do
       )
       business.geo(latitude: 40.7128, longitude: -74.0060)
       business.opening_hours([
-        "Monday-Thursday 11:00-22:00",
-        "Friday-Saturday 11:00-23:00",
-        "Sunday 12:00-21:00"
-      ])
+                               "Monday-Thursday 11:00-22:00",
+                               "Friday-Saturday 11:00-23:00",
+                               "Sunday 12:00-21:00"
+                             ])
       business.aggregate_rating(rating_value: 4.7, review_count: 523)
 
       hash = business.to_h
@@ -274,7 +274,7 @@ RSpec.describe BetterSeo::StructuredData::LocalBusiness do
       expect(hash["@type"]).to eq("LocalBusiness")
       expect(hash["name"]).to eq("Joe's Authentic Italian Pizza")
       expect(hash["priceRange"]).to eq("$$")
-      expect(hash["servesCuisine"]).to eq(["Italian", "Pizza"])
+      expect(hash["servesCuisine"]).to eq(%w[Italian Pizza])
       expect(hash["address"]["@type"]).to eq("PostalAddress")
       expect(hash["geo"]["@type"]).to eq("GeoCoordinates")
       expect(hash["aggregateRating"]["@type"]).to eq("AggregateRating")

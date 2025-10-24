@@ -22,7 +22,7 @@ module BetterSeo
         recommendations = []
         length = title_result[:length]
 
-        if length == 0
+        if length.zero?
           recommendations << {
             category: "Title",
             priority: :high,
@@ -56,7 +56,7 @@ module BetterSeo
         recommendations = []
         length = desc_result[:length]
 
-        if length == 0
+        if length.zero?
           recommendations << {
             category: "Meta Description",
             priority: :high,
@@ -90,7 +90,7 @@ module BetterSeo
         recommendations = []
         h1_count = headings_result[:h1_count]
 
-        if h1_count == 0
+        if h1_count.zero?
           recommendations << {
             category: "Headings",
             priority: :high,
@@ -106,7 +106,7 @@ module BetterSeo
           }
         end
 
-        if headings_result[:total_headings] == 0
+        if headings_result[:total_headings].zero?
           recommendations << {
             category: "Headings",
             priority: :medium,
@@ -123,13 +123,13 @@ module BetterSeo
 
         recommendations = []
 
-        if images_result[:images_without_alt] > 0
+        if images_result[:images_without_alt].positive?
           count = images_result[:images_without_alt]
           recommendations << {
             category: "Images",
             priority: :medium,
             action: "Add alt text to images",
-            details: "#{count} image#{count > 1 ? 's' : ''} missing alt text. Alt text improves accessibility and SEO."
+            details: "#{count} image#{"s" if count > 1} missing alt text. Alt text improves accessibility and SEO."
           }
         end
 
@@ -145,7 +145,7 @@ module BetterSeo
         # Group by priority
         grouped = recommendations.group_by { |r| r[:priority] }
 
-        [:high, :medium, :low].each do |priority|
+        %i[high medium low].each do |priority|
           next unless grouped[priority]
 
           output << "## #{priority.to_s.capitalize} Priority\n"

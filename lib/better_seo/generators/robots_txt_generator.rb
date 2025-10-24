@@ -58,23 +58,17 @@ module BetterSeo
           lines << "User-agent: #{rule[:user_agent]}"
 
           # Allow directives
-          if rule[:allow]
-            rule[:allow].each do |path|
-              lines << "Allow: #{path}"
-            end
+          rule[:allow]&.each do |path|
+            lines << "Allow: #{path}"
           end
 
           # Disallow directives
-          if rule[:disallow]
-            rule[:disallow].each do |path|
-              lines << "Disallow: #{path}"
-            end
+          rule[:disallow]&.each do |path|
+            lines << "Disallow: #{path}"
           end
 
           # Crawl delay
-          if rule[:crawl_delay]
-            lines << "Crawl-delay: #{rule[:crawl_delay]}"
-          end
+          lines << "Crawl-delay: #{rule[:crawl_delay]}" if rule[:crawl_delay]
 
           # Add blank line between user agent sections (except last)
           lines << "" if index < @rules.size - 1

@@ -3,6 +3,8 @@
 require "spec_helper"
 
 RSpec.describe BetterSeo::Generators::MetaTagsGenerator do
+  subject(:generator) { described_class.new(config) }
+
   let(:config) do
     {
       charset: "UTF-8",
@@ -15,8 +17,6 @@ RSpec.describe BetterSeo::Generators::MetaTagsGenerator do
       robots: { index: true, follow: true, noarchive: true }
     }
   end
-
-  subject(:generator) { described_class.new(config) }
 
   describe "#initialize" do
     it "accepts configuration hash" do
@@ -45,7 +45,7 @@ RSpec.describe BetterSeo::Generators::MetaTagsGenerator do
     end
 
     it "generates title tag" do
-      expect(html).to include('<title>Test Page Title</title>')
+      expect(html).to include("<title>Test Page Title</title>")
     end
 
     it "generates description meta tag" do
@@ -111,7 +111,7 @@ RSpec.describe BetterSeo::Generators::MetaTagsGenerator do
 
   describe "#title_tag" do
     it "generates title tag" do
-      expect(generator.title_tag).to eq('<title>Test Page Title</title>')
+      expect(generator.title_tag).to eq("<title>Test Page Title</title>")
     end
 
     it "returns nil when title not present" do
@@ -201,14 +201,14 @@ RSpec.describe BetterSeo::Generators::MetaTagsGenerator do
 
     it "includes additional robot directives" do
       gen = described_class.new({
-        robots: {
-          index: true,
-          follow: true,
-          noarchive: true,
-          noimageindex: true,
-          nosnippet: true
-        }
-      })
+                                  robots: {
+                                    index: true,
+                                    follow: true,
+                                    noarchive: true,
+                                    noimageindex: true,
+                                    nosnippet: true
+                                  }
+                                })
       tag = gen.robots_tag
       expect(tag).to include("noarchive")
       expect(tag).to include("noimageindex")
@@ -241,8 +241,8 @@ RSpec.describe BetterSeo::Generators::MetaTagsGenerator do
 
     it "handles multiple special characters" do
       gen = described_class.new({
-        title: 'Test "Title" with <tags> & special chars'
-      })
+                                  title: 'Test "Title" with <tags> & special chars'
+                                })
       tag = gen.title_tag
       expect(tag).to include("&quot;")
       expect(tag).to include("&lt;")

@@ -45,7 +45,7 @@ RSpec.describe BetterSeo::StructuredData::FAQPage do
 
     it "supports method chaining" do
       faq.add_question(question: "Q1?", answer: "A1")
-        .add_question(question: "Q2?", answer: "A2")
+         .add_question(question: "Q2?", answer: "A2")
 
       expect(faq.to_h["mainEntity"].size).to eq(2)
     end
@@ -72,8 +72,8 @@ RSpec.describe BetterSeo::StructuredData::FAQPage do
 
     it "supports method chaining" do
       faq.add_questions([
-        { question: "Q1?", answer: "A1" }
-      ]).add_question(question: "Q2?", answer: "A2")
+                          { question: "Q1?", answer: "A1" }
+                        ]).add_question(question: "Q2?", answer: "A2")
 
       expect(faq.to_h["mainEntity"].size).to eq(2)
     end
@@ -127,7 +127,7 @@ RSpec.describe BetterSeo::StructuredData::FAQPage do
       expect(script_tag).to include('"@type": "FAQPage"')
       expect(script_tag).to include('"@type": "Question"')
       expect(script_tag).to include('"@type": "Answer"')
-      expect(script_tag).to include('</script>')
+      expect(script_tag).to include("</script>")
     end
   end
 
@@ -135,23 +135,23 @@ RSpec.describe BetterSeo::StructuredData::FAQPage do
     it "creates complete FAQ page with multiple questions" do
       faq = described_class.new
       faq.add_questions([
-        {
-          question: "What is Ruby on Rails?",
-          answer: "Ruby on Rails is a server-side web application framework written in Ruby."
-        },
-        {
-          question: "What are the benefits of using Rails?",
-          answer: "Rails follows convention over configuration, has a large ecosystem, and enables rapid development."
-        },
-        {
-          question: "Is Rails still relevant in 2024?",
-          answer: "Yes, Rails continues to be a popular choice for web development with regular updates and a strong community."
-        },
-        {
-          question: "What is ActiveRecord?",
-          answer: "ActiveRecord is the ORM (Object-Relational Mapping) layer in Rails that connects classes to database tables."
-        }
-      ])
+                          {
+                            question: "What is Ruby on Rails?",
+                            answer: "Ruby on Rails is a server-side web application framework written in Ruby."
+                          },
+                          {
+                            question: "What are the benefits of using Rails?",
+                            answer: "Rails follows convention over configuration, has a large ecosystem, and enables rapid development."
+                          },
+                          {
+                            question: "Is Rails still relevant in 2024?",
+                            answer: "Yes, Rails continues to be a popular choice for web development with regular updates and a strong community."
+                          },
+                          {
+                            question: "What is ActiveRecord?",
+                            answer: "ActiveRecord is the ORM (Object-Relational Mapping) layer in Rails that connects classes to database tables."
+                          }
+                        ])
 
       hash = faq.to_h
 

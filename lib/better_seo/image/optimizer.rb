@@ -24,6 +24,7 @@ module BetterSeo
         unless SUPPORTED_FORMATS.include?(ext)
           raise ImageError, "Unsupported format: #{ext}. Supported: #{SUPPORTED_FORMATS.join(", ")}"
         end
+
         true
       end
 
@@ -136,6 +137,7 @@ module BetterSeo
 
       def validate_source!(source)
         raise ImageError, "Source file not found: #{source}" unless File.exist?(source)
+
         validate_format!(source)
       end
     end

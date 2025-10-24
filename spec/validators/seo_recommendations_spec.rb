@@ -174,7 +174,7 @@ RSpec.describe BetterSeo::Validators::SeoRecommendations do
       recommendations = recommender.generate_recommendations(validation)
       markdown = recommender.format_recommendations(recommendations)
 
-      expect(recommendations.size).to be >= 4  # Title, desc, headings, images
+      expect(recommendations.size).to be >= 4 # Title, desc, headings, images
       expect(markdown).to include("# SEO Recommendations")
       expect(markdown).to be_a(String)
     end

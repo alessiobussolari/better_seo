@@ -22,7 +22,7 @@ RSpec.describe BetterSeo::Analytics::GoogleAnalytics do
 
       expect(script).to include('src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"')
       expect(script).to include("gtag('config', 'G-XXXXXXXXXX')")
-      expect(script).to include('async')
+      expect(script).to include("async")
     end
 
     it "includes anonymize_ip when enabled" do

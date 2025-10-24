@@ -74,8 +74,8 @@ RSpec.describe BetterSeo::StructuredData::Recipe do
     end
 
     it "sets keywords" do
-      recipe.keywords(["cookies", "dessert", "chocolate"])
-      expect(recipe.to_h["keywords"]).to eq(["cookies", "dessert", "chocolate"])
+      recipe.keywords(%w[cookies dessert chocolate])
+      expect(recipe.to_h["keywords"]).to eq(%w[cookies dessert chocolate])
     end
   end
 
@@ -239,7 +239,7 @@ RSpec.describe BetterSeo::StructuredData::Recipe do
       expect(script_tag).to include('<script type="application/ld+json">')
       expect(script_tag).to include('"@type": "Recipe"')
       expect(script_tag).to include('"@type": "HowToStep"')
-      expect(script_tag).to include('</script>')
+      expect(script_tag).to include("</script>")
     end
   end
 
@@ -249,9 +249,9 @@ RSpec.describe BetterSeo::StructuredData::Recipe do
       recipe.name("Perfect Chocolate Chip Cookies")
       recipe.description("The ultimate chocolate chip cookie recipe")
       recipe.image([
-        "https://example.com/cookies-1.jpg",
-        "https://example.com/cookies-2.jpg"
-      ])
+                     "https://example.com/cookies-1.jpg",
+                     "https://example.com/cookies-2.jpg"
+                   ])
       recipe.author("Chef Julia")
       recipe.prep_time("PT15M")
       recipe.cook_time("PT12M")
@@ -259,30 +259,30 @@ RSpec.describe BetterSeo::StructuredData::Recipe do
       recipe.recipe_yield("24 cookies")
       recipe.recipe_category("Dessert")
       recipe.recipe_cuisine("American")
-      recipe.keywords(["cookies", "chocolate", "dessert", "baking"])
+      recipe.keywords(%w[cookies chocolate dessert baking])
 
       recipe.add_ingredients([
-        "2 cups all-purpose flour",
-        "1 tsp baking soda",
-        "1/2 tsp salt",
-        "1 cup butter, softened",
-        "3/4 cup granulated sugar",
-        "3/4 cup brown sugar",
-        "2 large eggs",
-        "2 tsp vanilla extract",
-        "2 cups chocolate chips"
-      ])
+                               "2 cups all-purpose flour",
+                               "1 tsp baking soda",
+                               "1/2 tsp salt",
+                               "1 cup butter, softened",
+                               "3/4 cup granulated sugar",
+                               "3/4 cup brown sugar",
+                               "2 large eggs",
+                               "2 tsp vanilla extract",
+                               "2 cups chocolate chips"
+                             ])
 
       recipe.add_instructions([
-        "Preheat oven to 375°F (190°C)",
-        "Mix flour, baking soda, and salt in a bowl",
-        "Beat butter and sugars until creamy",
-        "Add eggs and vanilla, beat well",
-        "Gradually blend in flour mixture",
-        "Stir in chocolate chips",
-        "Drop by rounded tablespoons onto ungreased cookie sheets",
-        "Bake 9-11 minutes or until golden brown"
-      ])
+                                "Preheat oven to 375°F (190°C)",
+                                "Mix flour, baking soda, and salt in a bowl",
+                                "Beat butter and sugars until creamy",
+                                "Add eggs and vanilla, beat well",
+                                "Gradually blend in flour mixture",
+                                "Stir in chocolate chips",
+                                "Drop by rounded tablespoons onto ungreased cookie sheets",
+                                "Bake 9-11 minutes or until golden brown"
+                              ])
 
       recipe.nutrition(
         calories: "270 calories",

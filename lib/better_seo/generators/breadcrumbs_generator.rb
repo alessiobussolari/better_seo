@@ -46,10 +46,13 @@ module BetterSeo
         html << %(  <ol class="#{escape_html(list_class)}">)
 
         @items.each_with_index do |item, index|
+          active_class = item[:url].nil? ? " active" : ""
+          aria_current = item[:url].nil? ? ' aria-current="page"' : ""
+
           if schema
-            html << %(    <li class="breadcrumb-item#{item[:url].nil? ? " active" : ""}" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"#{item[:url].nil? ? ' aria-current="page"' : ""}>)
+            html << %(    <li class="breadcrumb-item#{active_class}" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"#{aria_current}>)
           else
-            html << %(    <li class="breadcrumb-item#{item[:url].nil? ? " active" : ""}"#{item[:url].nil? ? ' aria-current="page"' : ""}>)
+            html << %(    <li class="breadcrumb-item#{active_class}"#{aria_current}>)
           end
 
           if item[:url]
@@ -61,13 +64,11 @@ module BetterSeo
             else
               html << %(      <a href="#{escape_html(item[:url])}">#{escape_html(item[:name])}</a>)
             end
+          elsif schema
+            html << %(      <span itemprop="name">#{escape_html(item[:name])}</span>)
+            html << %(      <meta itemprop="position" content="#{index + 1}" />)
           else
-            if schema
-              html << %(      <span itemprop="name">#{escape_html(item[:name])}</span>)
-              html << %(      <meta itemprop="position" content="#{index + 1}" />)
-            else
-              html << %(      #{escape_html(item[:name])})
-            end
+            html << %(      #{escape_html(item[:name])})
           end
 
           html << %(    </li>)
@@ -115,11 +116,11 @@ module BetterSeo
         return "" if text.nil?
 
         text.to_s
-          .gsub("&", "&amp;")
-          .gsub("<", "&lt;")
-          .gsub(">", "&gt;")
-          .gsub('"', "&quot;")
-          .gsub("'", "&#39;")
+            .gsub("&", "&amp;")
+            .gsub("<", "&lt;")
+            .gsub(">", "&gt;")
+            .gsub('"', "&quot;")
+            .gsub("'", "&#39;")
       end
     end
   end

@@ -132,7 +132,7 @@ RSpec.describe BetterSeo::Sitemap::Generator do
       xml = described_class.generate_from_collection(
         model_class.all,
         url: ->(item) { "https://example.com/posts/#{item.slug}" },
-        lastmod: ->(item) { item.updated_at }
+        lastmod: lambda(&:updated_at)
       )
 
       expect(xml).to include("<lastmod>2024-01-01</lastmod>")
@@ -171,18 +171,18 @@ RSpec.describe BetterSeo::Sitemap::Generator do
     end
 
     it "raises error when url option is missing" do
-      expect {
+      expect do
         described_class.generate_from_collection(model_class.all)
-      }.to raise_error(ArgumentError, /url option is required/)
+      end.to raise_error(ArgumentError, /url option is required/)
     end
 
     it "raises error when url option is not callable" do
-      expect {
+      expect do
         described_class.generate_from_collection(
           model_class.all,
           url: "not-a-proc"
         )
-      }.to raise_error(ArgumentError, /url option must be callable/)
+      end.to raise_error(ArgumentError, /url option must be callable/)
     end
 
     it "generates empty sitemap from empty collection" do
@@ -200,7 +200,7 @@ RSpec.describe BetterSeo::Sitemap::Generator do
     let(:temp_file) { "/tmp/sitemap_test_#{Time.now.to_i}.xml" }
 
     after do
-      File.delete(temp_file) if File.exist?(temp_file)
+      FileUtils.rm_f(temp_file)
     end
 
     it "writes sitemap XML to file" do

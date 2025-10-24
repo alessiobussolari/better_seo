@@ -77,16 +77,16 @@ RSpec.describe BetterSeo::StructuredData::Organization do
     it "sets sameAs social profiles" do
       org = described_class.new
       org.same_as([
-        "https://twitter.com/acme",
-        "https://facebook.com/acme",
-        "https://linkedin.com/company/acme"
-      ])
+                    "https://twitter.com/acme",
+                    "https://facebook.com/acme",
+                    "https://linkedin.com/company/acme"
+                  ])
 
       expect(org.get(:sameAs)).to eq([
-        "https://twitter.com/acme",
-        "https://facebook.com/acme",
-        "https://linkedin.com/company/acme"
-      ])
+                                       "https://twitter.com/acme",
+                                       "https://facebook.com/acme",
+                                       "https://linkedin.com/company/acme"
+                                     ])
     end
 
     it "sets founding date" do
@@ -115,9 +115,9 @@ RSpec.describe BetterSeo::StructuredData::Organization do
     it "allows method chaining" do
       org = described_class.new
       result = org
-        .name("Acme Corp")
-        .url("https://acme.com")
-        .email("info@acme.com")
+               .name("Acme Corp")
+               .url("https://acme.com")
+               .email("info@acme.com")
 
       expect(result).to eq(org)
       expect(org.get(:name)).to eq("Acme Corp")
@@ -170,15 +170,15 @@ RSpec.describe BetterSeo::StructuredData::Organization do
       org = described_class.new
       org.name("Acme Corp")
       org.same_as([
-        "https://twitter.com/acme",
-        "https://facebook.com/acme"
-      ])
+                    "https://twitter.com/acme",
+                    "https://facebook.com/acme"
+                  ])
 
       hash = org.to_h
       expect(hash["sameAs"]).to eq([
-        "https://twitter.com/acme",
-        "https://facebook.com/acme"
-      ])
+                                     "https://twitter.com/acme",
+                                     "https://facebook.com/acme"
+                                   ])
     end
 
     it "includes nested Person for founder" do
@@ -210,7 +210,7 @@ RSpec.describe BetterSeo::StructuredData::Organization do
       expect(tag).to include('<script type="application/ld+json">')
       expect(tag).to include('"@type": "Organization"')
       expect(tag).to include('"name": "Acme Corp"')
-      expect(tag).to include('</script>')
+      expect(tag).to include("</script>")
     end
   end
 
@@ -243,10 +243,10 @@ RSpec.describe BetterSeo::StructuredData::Organization do
         country: "US"
       )
       org.same_as([
-        "https://www.facebook.com/acmecorp",
-        "https://www.twitter.com/acmecorp",
-        "https://www.linkedin.com/company/acmecorp"
-      ])
+                    "https://www.facebook.com/acmecorp",
+                    "https://www.twitter.com/acmecorp",
+                    "https://www.linkedin.com/company/acmecorp"
+                  ])
       org.founding_date("2015-03-20")
 
       hash = org.to_h

@@ -32,22 +32,16 @@ module BetterSeo
       def to_meta_tags
         tags = []
 
-        if @canonical_url
-          tags << %(<link rel="canonical" href="#{escape_html(@canonical_url)}">)
-        end
+        tags << %(<link rel="canonical" href="#{escape_html(@canonical_url)}">) if @canonical_url
 
-        if @title
-          tags << %(<meta property="og:title" content="#{escape_html(@title)}">)
-        end
+        tags << %(<meta property="og:title" content="#{escape_html(@title)}">) if @title
 
         if @description
           tags << %(<meta name="description" content="#{escape_html(@description)}">)
           tags << %(<meta property="og:description" content="#{escape_html(@description)}">)
         end
 
-        if @image
-          tags << %(<meta property="og:image" content="#{escape_html(@image)}">)
-        end
+        tags << %(<meta property="og:image" content="#{escape_html(@image)}">) if @image
 
         tags.join("\n")
       end
@@ -72,11 +66,11 @@ module BetterSeo
         return "" if text.nil?
 
         text.to_s
-          .gsub("&", "&amp;")
-          .gsub("<", "&lt;")
-          .gsub(">", "&gt;")
-          .gsub('"', "&quot;")
-          .gsub("'", "&#39;")
+            .gsub("&", "&amp;")
+            .gsub("<", "&lt;")
+            .gsub(">", "&gt;")
+            .gsub('"', "&quot;")
+            .gsub("'", "&#39;")
       end
     end
   end

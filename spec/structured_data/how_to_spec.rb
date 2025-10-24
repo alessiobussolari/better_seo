@@ -39,8 +39,8 @@ RSpec.describe BetterSeo::StructuredData::HowTo do
     end
 
     it "sets supply" do
-      how_to.supply(["Flour", "Water", "Yeast"])
-      expect(how_to.to_h["supply"]).to eq(["Flour", "Water", "Yeast"])
+      how_to.supply(%w[Flour Water Yeast])
+      expect(how_to.to_h["supply"]).to eq(%w[Flour Water Yeast])
     end
 
     it "sets tool" do
@@ -100,7 +100,7 @@ RSpec.describe BetterSeo::StructuredData::HowTo do
 
     it "supports method chaining" do
       how_to.add_step(name: "Step 1", text: "First")
-        .add_step(name: "Step 2", text: "Second")
+            .add_step(name: "Step 2", text: "Second")
 
       expect(how_to.to_h["step"].size).to eq(2)
     end
@@ -174,7 +174,7 @@ RSpec.describe BetterSeo::StructuredData::HowTo do
       expect(script_tag).to include('<script type="application/ld+json">')
       expect(script_tag).to include('"@type": "HowTo"')
       expect(script_tag).to include('"@type": "HowToStep"')
-      expect(script_tag).to include('</script>')
+      expect(script_tag).to include("</script>")
     end
   end
 
@@ -189,25 +189,25 @@ RSpec.describe BetterSeo::StructuredData::HowTo do
       how_to.tool(["VS Code", "Git"])
 
       how_to.add_steps([
-        {
-          name: "Set up development environment",
-          text: "Install Node.js, VS Code, and Git on your computer",
-          image: "https://example.com/setup.jpg"
-        },
-        {
-          name: "Create HTML file",
-          text: "Create an index.html file with basic structure",
-          url: "https://example.com/guide#html"
-        },
-        {
-          name: "Add CSS styling",
-          text: "Create a styles.css file and link it to your HTML"
-        },
-        {
-          name: "Deploy website",
-          text: "Upload your files to a web hosting service"
-        }
-      ])
+                         {
+                           name: "Set up development environment",
+                           text: "Install Node.js, VS Code, and Git on your computer",
+                           image: "https://example.com/setup.jpg"
+                         },
+                         {
+                           name: "Create HTML file",
+                           text: "Create an index.html file with basic structure",
+                           url: "https://example.com/guide#html"
+                         },
+                         {
+                           name: "Add CSS styling",
+                           text: "Create a styles.css file and link it to your HTML"
+                         },
+                         {
+                           name: "Deploy website",
+                           text: "Upload your files to a web hosting service"
+                         }
+                       ])
 
       hash = how_to.to_h
 

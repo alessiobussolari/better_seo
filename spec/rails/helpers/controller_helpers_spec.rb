@@ -20,13 +20,13 @@ RSpec.describe BetterSeo::Rails::Helpers::ControllerHelpers do
       controller.set_meta_tags(
         title: "My Page",
         description: "Page description",
-        keywords: ["ruby", "rails"]
+        keywords: %w[ruby rails]
       )
 
       data = controller.better_seo_data
       expect(data[:meta][:title]).to eq("My Page")
       expect(data[:meta][:description]).to eq("Page description")
-      expect(data[:meta][:keywords]).to eq(["ruby", "rails"])
+      expect(data[:meta][:keywords]).to eq(%w[ruby rails])
     end
 
     it "supports block syntax" do
@@ -163,15 +163,15 @@ RSpec.describe BetterSeo::Rails::Helpers::ControllerHelpers do
 
   describe "#set_page_keywords" do
     it "sets page keywords from array" do
-      controller.set_page_keywords(["ruby", "rails", "seo"])
+      controller.set_page_keywords(%w[ruby rails seo])
 
-      expect(controller.better_seo_data[:meta][:keywords]).to eq(["ruby", "rails", "seo"])
+      expect(controller.better_seo_data[:meta][:keywords]).to eq(%w[ruby rails seo])
     end
 
     it "sets page keywords from comma-separated string" do
       controller.set_page_keywords("ruby, rails, seo")
 
-      expect(controller.better_seo_data[:meta][:keywords]).to eq(["ruby", "rails", "seo"])
+      expect(controller.better_seo_data[:meta][:keywords]).to eq(%w[ruby rails seo])
     end
   end
 
@@ -238,7 +238,7 @@ RSpec.describe BetterSeo::Rails::Helpers::ControllerHelpers do
     it "sets complete SEO data for a page" do
       controller.set_page_title("My Article", suffix: " | My Blog")
       controller.set_page_description("This is an amazing article about Ruby")
-      controller.set_page_keywords(["ruby", "programming", "tutorial"])
+      controller.set_page_keywords(%w[ruby programming tutorial])
       controller.set_page_image("https://example.com/article-image.jpg", width: 1200, height: 630)
       controller.set_canonical("https://example.com/articles/my-article")
 
@@ -254,7 +254,7 @@ RSpec.describe BetterSeo::Rails::Helpers::ControllerHelpers do
       # Meta tags
       expect(data[:meta][:title]).to eq("My Article | My Blog")
       expect(data[:meta][:description]).to eq("This is an amazing article about Ruby")
-      expect(data[:meta][:keywords]).to eq(["ruby", "programming", "tutorial"])
+      expect(data[:meta][:keywords]).to eq(%w[ruby programming tutorial])
       expect(data[:meta][:canonical]).to eq("https://example.com/articles/my-article")
 
       # OG tags

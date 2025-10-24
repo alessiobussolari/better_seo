@@ -37,10 +37,8 @@ module BetterSeo
         return get(:image) if value.nil?
 
         if value.is_a?(Hash)
-          set(:image, value)
-        else
-          set(:image, value)
         end
+        set(:image, value)
       end
 
       def image_alt(value = nil)
@@ -74,10 +72,10 @@ module BetterSeo
         else
           # Set for all platforms
           set(:app_name, {
-            iphone: value,
-            ipad: value,
-            googleplay: value
-          })
+                iphone: value,
+                ipad: value,
+                googleplay: value
+              })
         end
       end
 

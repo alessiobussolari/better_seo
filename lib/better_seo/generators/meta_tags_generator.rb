@@ -47,7 +47,7 @@ module BetterSeo
 
       def keywords_tag
         keywords = @config[:keywords]
-        return nil unless keywords && keywords.any?
+        return nil unless keywords&.any?
 
         keywords_str = Array(keywords).join(", ")
         %(<meta name="keywords" content="#{escape(keywords_str)}">)
@@ -79,7 +79,8 @@ module BetterSeo
 
         # Additional directives
         robots.each do |key, value|
-          next if [:index, :follow].include?(key)
+          next if %i[index follow].include?(key)
+
           directives << key.to_s if value
         end
 
@@ -90,10 +91,10 @@ module BetterSeo
 
       def escape(text)
         text.to_s
-          .gsub("&", "&amp;")
-          .gsub('"', "&quot;")
-          .gsub("<", "&lt;")
-          .gsub(">", "&gt;")
+            .gsub("&", "&amp;")
+            .gsub('"', "&quot;")
+            .gsub("<", "&lt;")
+            .gsub(">", "&gt;")
       end
     end
   end

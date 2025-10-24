@@ -35,7 +35,7 @@ module BetterSeo
         hash
       end
 
-      def to_json(*args)
+      def to_json(*_args)
         JSON.pretty_generate(to_h)
       end
 
@@ -53,6 +53,7 @@ module BetterSeo
 
       def validate!
         raise ValidationError, "@type is required for structured data" unless valid?
+
         true
       end
 

@@ -78,7 +78,7 @@ module BetterSeo
         end
       end
 
-      def respond_to_missing?(method_name, include_private = false)
+      def respond_to_missing?(_method_name, _include_private = false)
         true
       end
     end

@@ -79,22 +79,22 @@ RSpec.describe BetterSeo::StructuredData::Person do
     it "sets same_as social profiles" do
       person = described_class.new
       person.same_as([
-        "https://twitter.com/johndoe",
-        "https://linkedin.com/in/johndoe"
-      ])
+                       "https://twitter.com/johndoe",
+                       "https://linkedin.com/in/johndoe"
+                     ])
 
       expect(person.get(:sameAs)).to eq([
-        "https://twitter.com/johndoe",
-        "https://linkedin.com/in/johndoe"
-      ])
+                                          "https://twitter.com/johndoe",
+                                          "https://linkedin.com/in/johndoe"
+                                        ])
     end
 
     it "allows method chaining" do
       person = described_class.new
       result = person
-        .name("John Doe")
-        .email("john@example.com")
-        .url("https://johndoe.com")
+               .name("John Doe")
+               .email("john@example.com")
+               .url("https://johndoe.com")
 
       expect(result).to eq(person)
       expect(person.get(:name)).to eq("John Doe")
@@ -141,15 +141,15 @@ RSpec.describe BetterSeo::StructuredData::Person do
       person = described_class.new
       person.name("John Doe")
       person.same_as([
-        "https://twitter.com/johndoe",
-        "https://github.com/johndoe"
-      ])
+                       "https://twitter.com/johndoe",
+                       "https://github.com/johndoe"
+                     ])
 
       hash = person.to_h
       expect(hash["sameAs"]).to eq([
-        "https://twitter.com/johndoe",
-        "https://github.com/johndoe"
-      ])
+                                     "https://twitter.com/johndoe",
+                                     "https://github.com/johndoe"
+                                   ])
     end
   end
 
@@ -165,7 +165,7 @@ RSpec.describe BetterSeo::StructuredData::Person do
       expect(tag).to include('<script type="application/ld+json">')
       expect(tag).to include('"@type": "Person"')
       expect(tag).to include('"name": "John Doe"')
-      expect(tag).to include('</script>')
+      expect(tag).to include("</script>")
     end
   end
 
@@ -188,10 +188,10 @@ RSpec.describe BetterSeo::StructuredData::Person do
       person.works_for(org)
       person.telephone("+1-555-0199")
       person.same_as([
-        "https://twitter.com/janesmith",
-        "https://linkedin.com/in/janesmith",
-        "https://github.com/janesmith"
-      ])
+                       "https://twitter.com/janesmith",
+                       "https://linkedin.com/in/janesmith",
+                       "https://github.com/janesmith"
+                     ])
 
       hash = person.to_h
 

@@ -43,8 +43,8 @@ RSpec.describe BetterSeo::Sitemap::SitemapIndex do
 
     it "supports method chaining" do
       index.add_sitemap("https://example.com/sitemap1.xml")
-        .add_sitemap("https://example.com/sitemap2.xml")
-        .add_sitemap("https://example.com/sitemap3.xml")
+           .add_sitemap("https://example.com/sitemap2.xml")
+           .add_sitemap("https://example.com/sitemap3.xml")
 
       expect(index.sitemaps.size).to eq(3)
     end
@@ -93,7 +93,7 @@ RSpec.describe BetterSeo::Sitemap::SitemapIndex do
     let(:index) { described_class.new }
     let(:test_file) { "/tmp/sitemap_index_test.xml" }
 
-    after { File.delete(test_file) if File.exist?(test_file) }
+    after { FileUtils.rm_f(test_file) }
 
     it "writes sitemap index to file" do
       index.add_sitemap("https://example.com/sitemap1.xml")
@@ -140,8 +140,8 @@ RSpec.describe BetterSeo::Sitemap::SitemapIndex do
       expect(xml).to include("sitemap-products-2.xml")
       expect(xml).to include("sitemap-categories.xml")
 
-      expect(xml.scan(/<sitemap>/).size).to eq(5)
-      expect(xml.scan(/<\/sitemap>/).size).to eq(5)
+      expect(xml.scan("<sitemap>").size).to eq(5)
+      expect(xml.scan(%r{</sitemap>}).size).to eq(5)
     end
   end
 end

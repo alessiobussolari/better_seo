@@ -70,10 +70,10 @@ RSpec.describe BetterSeo::StructuredData::BreadcrumbList do
     it "adds multiple items from array" do
       breadcrumb = described_class.new
       breadcrumb.add_items([
-        { name: "Home", url: "https://example.com" },
-        { name: "Products", url: "https://example.com/products" },
-        { name: "Shoes", url: "https://example.com/products/shoes" }
-      ])
+                             { name: "Home", url: "https://example.com" },
+                             { name: "Products", url: "https://example.com/products" },
+                             { name: "Shoes", url: "https://example.com/products/shoes" }
+                           ])
 
       expect(breadcrumb.items.size).to eq(3)
       expect(breadcrumb.items[0][:position]).to eq(1)
@@ -163,7 +163,7 @@ RSpec.describe BetterSeo::StructuredData::BreadcrumbList do
       expect(tag).to include('<script type="application/ld+json">')
       expect(tag).to include('"@type": "BreadcrumbList"')
       expect(tag).to include('"name": "Home"')
-      expect(tag).to include('</script>')
+      expect(tag).to include("</script>")
     end
   end
 

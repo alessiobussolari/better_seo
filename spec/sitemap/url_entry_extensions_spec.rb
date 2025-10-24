@@ -36,7 +36,7 @@ RSpec.describe BetterSeo::Sitemap::UrlEntry, "image and video extensions" do
 
     it "supports method chaining" do
       entry.add_image("https://example.com/image1.jpg")
-        .add_image("https://example.com/image2.jpg")
+           .add_image("https://example.com/image2.jpg")
 
       expect(entry.images.size).to eq(2)
     end
@@ -176,13 +176,13 @@ RSpec.describe BetterSeo::Sitemap::UrlEntry, "image and video extensions" do
       expect(xml).to include("<loc>https://example.com/product/awesome-product</loc>")
 
       # Verify images
-      expect(xml.scan(/<image:image>/).size).to eq(3)
+      expect(xml.scan("<image:image>").size).to eq(3)
       expect(xml).to include("product-main.jpg")
       expect(xml).to include("product-alt1.jpg")
       expect(xml).to include("product-alt2.jpg")
 
       # Verify video
-      expect(xml.scan(/<video:video>/).size).to eq(1)
+      expect(xml.scan("<video:video>").size).to eq(1)
       expect(xml).to include("Product Demo Video")
       expect(xml).to include("<video:duration>120</video:duration>")
     end

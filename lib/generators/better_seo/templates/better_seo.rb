@@ -4,14 +4,14 @@ BetterSeo.configure do |config|
   # Site-wide settings
   config.site_name = "My Site"
   config.default_locale = :en
-  config.available_locales = [:en, :it, :fr, :de, :es]
+  config.available_locales = %i[en it fr de es]
 
   # Meta tags configuration
   config.meta_tags.default_title = "Default Title"
   config.meta_tags.title_separator = " | "
   config.meta_tags.append_site_name = true
   config.meta_tags.default_description = "Default description for your website"
-  config.meta_tags.default_keywords = ["keyword1", "keyword2", "keyword3"]
+  config.meta_tags.default_keywords = %w[keyword1 keyword2 keyword3]
   config.meta_tags.default_author = "Your Name or Company"
 
   # Open Graph configuration

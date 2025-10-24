@@ -6,7 +6,7 @@ module BetterSeo
   module Sitemap
     class Generator
       class << self
-        def generate(&block)
+        def generate
           builder = Builder.new
           yield(builder) if block_given?
           builder.to_xml

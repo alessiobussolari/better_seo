@@ -82,9 +82,7 @@ module BetterSeo
         location_hash["name"] = name if name
         location_hash["url"] = url if url
 
-        if address
-          location_hash["address"] = build_address(address)
-        end
+        location_hash["address"] = build_address(address) if address
 
         other_properties.each do |key, value|
           location_hash[key.to_s] = value

@@ -92,10 +92,10 @@ module BetterSeo
 
       def escape(text)
         text.to_s
-          .gsub("&", "&amp;")
-          .gsub('"', "&quot;")
-          .gsub("<", "&lt;")
-          .gsub(">", "&gt;")
+            .gsub("&", "&amp;")
+            .gsub('"', "&quot;")
+            .gsub("<", "&lt;")
+            .gsub(">", "&gt;")
       end
     end
   end

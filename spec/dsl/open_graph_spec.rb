@@ -44,7 +44,7 @@ RSpec.describe BetterSeo::DSL::OpenGraph do
     end
 
     it "defaults to website" do
-      expect(og.type).to be_nil  # Will be set from config defaults
+      expect(og.type).to be_nil # Will be set from config defaults
     end
   end
 
@@ -67,11 +67,11 @@ RSpec.describe BetterSeo::DSL::OpenGraph do
       it "sets image with full configuration" do
         og.image(url: "https://example.com/image.jpg", width: 1200, height: 630, alt: "Image Alt")
         expect(og.get(:image)).to eq({
-          url: "https://example.com/image.jpg",
-          width: 1200,
-          height: 630,
-          alt: "Image Alt"
-        })
+                                       url: "https://example.com/image.jpg",
+                                       width: 1200,
+                                       height: 630,
+                                       alt: "Image Alt"
+                                     })
       end
 
       it "sets image with partial configuration" do
@@ -110,12 +110,12 @@ RSpec.describe BetterSeo::DSL::OpenGraph do
   describe "#locale_alternate" do
     it "sets alternative locales as array" do
       og.locale_alternate("fr_FR", "de_DE")
-      expect(og.get(:locale_alternate)).to eq(["fr_FR", "de_DE"])
+      expect(og.get(:locale_alternate)).to eq(%w[fr_FR de_DE])
     end
 
     it "flattens nested arrays" do
-      og.locale_alternate(["fr_FR", "de_DE"], "es_ES")
-      expect(og.get(:locale_alternate)).to eq(["fr_FR", "de_DE", "es_ES"])
+      og.locale_alternate(%w[fr_FR de_DE], "es_ES")
+      expect(og.get(:locale_alternate)).to eq(%w[fr_FR de_DE es_ES])
     end
   end
 
@@ -137,7 +137,7 @@ RSpec.describe BetterSeo::DSL::OpenGraph do
         expect(article_data[:modified_time]).to eq("2024-01-02T00:00:00Z")
         expect(article_data[:expiration_time]).to eq("2024-12-31T23:59:59Z")
         expect(article_data[:section]).to eq("Technology")
-        expect(article_data[:tag]).to eq(["Ruby", "Rails", "SEO"])
+        expect(article_data[:tag]).to eq(%w[Ruby Rails SEO])
       end
 
       it "returns article data without block" do
@@ -156,11 +156,11 @@ RSpec.describe BetterSeo::DSL::OpenGraph do
     it "sets video with configuration hash" do
       og.video(url: "https://example.com/video.mp4", width: 1920, height: 1080, type: "video/mp4")
       expect(og.get(:video)).to eq({
-        url: "https://example.com/video.mp4",
-        width: 1920,
-        height: 1080,
-        type: "video/mp4"
-      })
+                                     url: "https://example.com/video.mp4",
+                                     width: 1920,
+                                     height: 1080,
+                                     type: "video/mp4"
+                                   })
     end
   end
 
@@ -213,9 +213,9 @@ RSpec.describe BetterSeo::DSL::OpenGraph do
         og.image("https://example.com/image.jpg")
         og.url("https://example.com")
 
-        expect {
+        expect do
           og.send(:validate!)
-        }.to raise_error(BetterSeo::ValidationError, /title is required/)
+        end.to raise_error(BetterSeo::ValidationError, /title is required/)
       end
 
       it "raises error when type is missing" do
@@ -223,9 +223,9 @@ RSpec.describe BetterSeo::DSL::OpenGraph do
         og.image("https://example.com/image.jpg")
         og.url("https://example.com")
 
-        expect {
+        expect do
           og.send(:validate!)
-        }.to raise_error(BetterSeo::ValidationError, /type is required/)
+        end.to raise_error(BetterSeo::ValidationError, /type is required/)
       end
 
       it "raises error when image is missing" do
@@ -233,9 +233,9 @@ RSpec.describe BetterSeo::DSL::OpenGraph do
         og.type("website")
         og.url("https://example.com")
 
-        expect {
+        expect do
           og.send(:validate!)
-        }.to raise_error(BetterSeo::ValidationError, /image is required/)
+        end.to raise_error(BetterSeo::ValidationError, /image is required/)
       end
 
       it "raises error when url is missing" do
@@ -243,15 +243,15 @@ RSpec.describe BetterSeo::DSL::OpenGraph do
         og.type("website")
         og.image("https://example.com/image.jpg")
 
-        expect {
+        expect do
           og.send(:validate!)
-        }.to raise_error(BetterSeo::ValidationError, /url is required/)
+        end.to raise_error(BetterSeo::ValidationError, /url is required/)
       end
 
       it "raises multiple errors" do
-        expect {
+        expect do
           og.send(:validate!)
-        }.to raise_error(BetterSeo::ValidationError, /title.*type.*image.*url/)
+        end.to raise_error(BetterSeo::ValidationError, /title.*type.*image.*url/)
       end
     end
   end
@@ -259,13 +259,13 @@ RSpec.describe BetterSeo::DSL::OpenGraph do
   describe "method chaining" do
     it "supports fluent interface" do
       result = og
-        .title("Chained Title")
-        .description("Chained Description")
-        .type("article")
-        .url("https://example.com/chain")
-        .image("https://example.com/chain.jpg")
-        .site_name("Chained Site")
-        .locale("en_US")
+               .title("Chained Title")
+               .description("Chained Description")
+               .type("article")
+               .url("https://example.com/chain")
+               .image("https://example.com/chain.jpg")
+               .site_name("Chained Site")
+               .locale("en_US")
 
       expect(result).to eq(og)
       expect(og.title).to eq("Chained Title")

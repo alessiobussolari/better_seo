@@ -62,9 +62,11 @@ module BetterSeo
         def set_page_description(description, max_length: nil)
           final_description = description
 
+          # rubocop:disable Style/IfUnlessModifier
           if max_length && description.length > max_length
-            final_description = description[0...max_length - 3] + "..."
+            final_description = "#{description[0...(max_length - 3)]}..."
           end
+          # rubocop:enable Style/IfUnlessModifier
 
           merge_seo_data(:meta, { description: final_description })
         end

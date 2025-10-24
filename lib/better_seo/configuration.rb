@@ -142,9 +142,7 @@ module BetterSeo
       end
 
       # Validate sitemap
-      if sitemap.enabled && sitemap.host.nil?
-        errors << "sitemap.host is required when sitemap is enabled"
-      end
+      errors << "sitemap.host is required when sitemap is enabled" if sitemap.enabled && sitemap.host.nil?
 
       # Validate meta tags lengths
       if meta_tags.default_title && meta_tags.default_title.length > 60
@@ -225,7 +223,15 @@ module BetterSeo
 
     def deep_dup(hash)
       hash.transform_values do |value|
-        value.is_a?(Hash) ? deep_dup(value) : (value.dup rescue value)
+        if value.is_a?(Hash)
+          deep_dup(value)
+        else
+          begin
+            value.dup
+          rescue StandardError
+            value
+          end
+        end
       end
     end
 
@@ -299,7 +305,7 @@ module BetterSeo
       end
 
       def define_accessors!
-        @data.keys.each { |key| define_accessor(key) }
+        @data.each_key { |key| define_accessor(key) }
       end
 
       def define_accessor(key)

@@ -179,7 +179,7 @@ RSpec.describe BetterSeo::StructuredData::Base do
       tag = base.to_script_tag
 
       # Extract JSON from script tag
-      json_match = tag.match(/<script[^>]*>(.*?)<\/script>/m)
+      json_match = tag.match(%r{<script[^>]*>(.*?)</script>}m)
       json = json_match[1].strip
       parsed = JSON.parse(json)
 
@@ -213,16 +213,16 @@ RSpec.describe BetterSeo::StructuredData::Base do
 
     it "raises error when @type is missing" do
       base = described_class.new(nil)
-      expect {
+      expect do
         base.validate!
-      }.to raise_error(BetterSeo::ValidationError, /@type is required/)
+      end.to raise_error(BetterSeo::ValidationError, /@type is required/)
     end
 
     it "raises error when @type is empty" do
       base = described_class.new("")
-      expect {
+      expect do
         base.validate!
-      }.to raise_error(BetterSeo::ValidationError, /@type is required/)
+      end.to raise_error(BetterSeo::ValidationError, /@type is required/)
     end
 
     it "returns true when valid" do

@@ -42,13 +42,13 @@ RSpec.describe BetterSeo::StructuredData::Product do
     it "sets image as array" do
       product = described_class.new
       product.image([
-        "https://example.com/iphone-1.jpg",
-        "https://example.com/iphone-2.jpg"
-      ])
+                      "https://example.com/iphone-1.jpg",
+                      "https://example.com/iphone-2.jpg"
+                    ])
       expect(product.get(:image)).to eq([
-        "https://example.com/iphone-1.jpg",
-        "https://example.com/iphone-2.jpg"
-      ])
+                                          "https://example.com/iphone-1.jpg",
+                                          "https://example.com/iphone-2.jpg"
+                                        ])
     end
 
     it "sets brand as string" do
@@ -103,9 +103,9 @@ RSpec.describe BetterSeo::StructuredData::Product do
     it "sets offers with multiple offers array" do
       product = described_class.new
       product.offers([
-        { price: 999.99, price_currency: "USD", availability: "InStock" },
-        { price: 899.99, price_currency: "USD", availability: "PreOrder" }
-      ])
+                       { price: 999.99, price_currency: "USD", availability: "InStock" },
+                       { price: 899.99, price_currency: "USD", availability: "PreOrder" }
+                     ])
 
       offers = product.get(:offers)
       expect(offers).to be_a(Array)
@@ -155,9 +155,9 @@ RSpec.describe BetterSeo::StructuredData::Product do
     it "sets reviews array" do
       product = described_class.new
       product.reviews([
-        { author: "John", rating_value: 5, review_body: "Great!" },
-        { author: "Jane", rating_value: 4, review_body: "Good" }
-      ])
+                        { author: "John", rating_value: 5, review_body: "Great!" },
+                        { author: "Jane", rating_value: 4, review_body: "Good" }
+                      ])
 
       reviews = product.get(:review)
       expect(reviews).to be_a(Array)
@@ -169,9 +169,9 @@ RSpec.describe BetterSeo::StructuredData::Product do
     it "allows method chaining" do
       product = described_class.new
       result = product
-        .name("iPhone 15")
-        .brand("Apple")
-        .sku("IPHONE15-BLACK")
+               .name("iPhone 15")
+               .brand("Apple")
+               .sku("IPHONE15-BLACK")
 
       expect(result).to eq(product)
       expect(product.get(:name)).to eq("iPhone 15")
@@ -248,7 +248,7 @@ RSpec.describe BetterSeo::StructuredData::Product do
       expect(tag).to include('<script type="application/ld+json">')
       expect(tag).to include('"@type": "Product"')
       expect(tag).to include('"name": "iPhone 15"')
-      expect(tag).to include('</script>')
+      expect(tag).to include("</script>")
     end
   end
 
@@ -258,10 +258,10 @@ RSpec.describe BetterSeo::StructuredData::Product do
       product.name("Premium Wireless Headphones")
       product.description("High-quality wireless headphones with noise cancellation")
       product.image([
-        "https://example.com/headphones-1.jpg",
-        "https://example.com/headphones-2.jpg",
-        "https://example.com/headphones-3.jpg"
-      ])
+                      "https://example.com/headphones-1.jpg",
+                      "https://example.com/headphones-2.jpg",
+                      "https://example.com/headphones-3.jpg"
+                    ])
       product.brand("AudioTech")
       product.sku("HEADPHONES-WL-NC-2024")
       product.gtin("1234567890123")

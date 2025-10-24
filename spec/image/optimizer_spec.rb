@@ -8,15 +8,14 @@ RSpec.describe BetterSeo::Image::Optimizer do
 
   before(:all) do
     # Check if ImageMagick is available
-    begin
-      require "mini_magick"
-      @imagemagick_available = MiniMagick::Tool::Identify.new.version.present?
-    rescue
-      @imagemagick_available = false
-    end
+
+    require "mini_magick"
+    @imagemagick_available = MiniMagick::Tool::Identify.new.version.present?
+  rescue StandardError
+    @imagemagick_available = false
   end
 
-  before(:each) do
+  before do
     FileUtils.mkdir_p(test_image_dir)
     # Create a simple test image if ImageMagick is available
     if @imagemagick_available
@@ -28,8 +27,8 @@ RSpec.describe BetterSeo::Image::Optimizer do
     end
   end
 
-  after(:each) do
-    FileUtils.rm_rf(test_image_dir) if File.exist?(test_image_dir)
+  after do
+    FileUtils.rm_rf(test_image_dir)
   end
 
   describe "#initialize" do
@@ -93,9 +92,9 @@ RSpec.describe BetterSeo::Image::Optimizer do
 
     it "raises error for non-existent source" do
       optimizer = described_class.new
-      expect {
+      expect do
         optimizer.convert_to_webp("/nonexistent/image.jpg", "/tmp/output.webp")
-      }.to raise_error(BetterSeo::ImageError)
+      end.to raise_error(BetterSeo::ImageError)
     end
   end
 
@@ -207,5 +206,4 @@ RSpec.describe BetterSeo::Image::Optimizer do
       expect(result).to have_key(:reduction_percent)
     end
   end
-
 end

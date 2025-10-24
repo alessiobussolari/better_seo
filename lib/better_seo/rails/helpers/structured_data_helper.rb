@@ -27,7 +27,7 @@ module BetterSeo
           raw(sd_object.to_script_tag)
         end
 
-        def structured_data_tags(objects = nil, &block)
+        def structured_data_tags(objects = nil)
           array = block_given? ? yield : objects
           return "" if array.nil? || array.empty?
 
@@ -109,7 +109,7 @@ module BetterSeo
 
         private
 
-        def create_structured_data(type, properties, &block)
+        def create_structured_data(type, properties)
           klass = TYPE_MAPPING[type]
           raise ArgumentError, "Unknown structured data type: #{type}" unless klass
 

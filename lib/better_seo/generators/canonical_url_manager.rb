@@ -42,14 +42,10 @@ module BetterSeo
           uri = URI.parse(@url)
 
           # Check if it's a relative URL
-          unless uri.absolute?
-            raise ValidationError, "Canonical URL must be absolute: #{@url}"
-          end
+          raise ValidationError, "Canonical URL must be absolute: #{@url}" unless uri.absolute?
 
           # Check if it's HTTP or HTTPS
-          unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-            raise ValidationError, "Invalid URL format: #{@url}"
-          end
+          raise ValidationError, "Invalid URL format: #{@url}" unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
         rescue URI::InvalidURIError
           raise ValidationError, "Invalid URL format: #{@url}"
         end
@@ -81,9 +77,7 @@ module BetterSeo
         normalized = uri.to_s
 
         # Remove trailing slash (except for root URL)
-        if normalized.end_with?("/") && normalized.count("/") > 3
-          normalized = normalized[0...-1]
-        end
+        normalized = normalized[0...-1] if normalized.end_with?("/") && normalized.count("/") > 3
 
         # Lowercase if configured
         normalized = normalized.downcase if @lowercase
@@ -95,11 +89,11 @@ module BetterSeo
         return "" if text.nil?
 
         text.to_s
-          .gsub("&", "&amp;")
-          .gsub("<", "&lt;")
-          .gsub(">", "&gt;")
-          .gsub('"', "&quot;")
-          .gsub("'", "&#39;")
+            .gsub("&", "&amp;")
+            .gsub("<", "&lt;")
+            .gsub(">", "&gt;")
+            .gsub('"', "&quot;")
+            .gsub("'", "&#39;")
       end
     end
   end

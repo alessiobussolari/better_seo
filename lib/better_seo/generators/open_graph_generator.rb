@@ -52,7 +52,7 @@ module BetterSeo
 
       def locale_alternate_tags
         alternates = @config[:locale_alternate]
-        return [] unless alternates && alternates.any?
+        return [] unless alternates&.any?
 
         Array(alternates).map do |locale|
           meta_tag("og:locale:alternate", locale)
@@ -100,10 +100,10 @@ module BetterSeo
 
       def escape(text)
         text.to_s
-          .gsub("&", "&amp;")
-          .gsub('"', "&quot;")
-          .gsub("<", "&lt;")
-          .gsub(">", "&gt;")
+            .gsub("&", "&amp;")
+            .gsub('"', "&quot;")
+            .gsub("<", "&lt;")
+            .gsub(">", "&gt;")
       end
     end
   end

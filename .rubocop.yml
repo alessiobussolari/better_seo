@@ -1,5 +1,8 @@
+inherit_from: .rubocop_todo.yml
+
 AllCops:
   TargetRubyVersion: 3.0
+  NewCops: enable
 
 plugins:
   - rubocop-rake
@@ -10,3 +13,26 @@ Style/StringLiterals:
 
 Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
+
+# Allow validate! and other bang methods
+Naming/PredicateMethod:
+  Enabled: false
+
+# Allow development dependencies in gemspec
+Gemspec/DevelopmentDependencies:
+  Enabled: false
+
+# These are intentional duplicate branches for clarity
+Lint/DuplicateBranch:
+  Enabled: false
+
+# Allow block parameters even if not explicitly referenced (used via yield)
+Lint/UnusedMethodArgument:
+  AllowUnusedKeywordArguments: true
+  IgnoreEmptyMethods: false
+  Exclude:
+    - "lib/better_seo/rails/helpers/controller_helpers.rb"
+
+# Allow @_better_seo_data naming to avoid conflicts
+Naming/MemoizedInstanceVariableName:
+  Enabled: false

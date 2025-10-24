@@ -166,7 +166,7 @@ RSpec.describe BetterSeo::Generators::CanonicalUrlManager do
       html = manager.to_html
 
       expect(html).to include('rel="canonical"')
-      expect(html).to include('https://example.com/products/123')
+      expect(html).to include("https://example.com/products/123")
     end
 
     it "can be used in controller to set response header" do

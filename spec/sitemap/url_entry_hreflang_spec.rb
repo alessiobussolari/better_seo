@@ -23,7 +23,7 @@ RSpec.describe BetterSeo::Sitemap::UrlEntry, "hreflang support" do
 
       alternates = entry.alternates
       expect(alternates.size).to eq(3)
-      expect(alternates.map { |a| a[:hreflang] }).to eq(["es", "fr", "de"])
+      expect(alternates.map { |a| a[:hreflang] }).to eq(%w[es fr de])
     end
 
     it "supports x-default alternate" do
@@ -45,7 +45,7 @@ RSpec.describe BetterSeo::Sitemap::UrlEntry, "hreflang support" do
 
     it "supports method chaining" do
       entry.add_alternate("https://example.com/es/page", hreflang: "es")
-        .add_alternate("https://example.com/fr/page", hreflang: "fr")
+           .add_alternate("https://example.com/fr/page", hreflang: "fr")
 
       expect(entry.alternates.size).to eq(2)
     end
@@ -59,7 +59,7 @@ RSpec.describe BetterSeo::Sitemap::UrlEntry, "hreflang support" do
 
       xml = entry.to_xml
 
-      expect(xml).to include('<xhtml:link')
+      expect(xml).to include("<xhtml:link")
       expect(xml).to include('rel="alternate"')
       expect(xml).to include('hreflang="es"')
       expect(xml).to include('href="https://example.com/es/page"')

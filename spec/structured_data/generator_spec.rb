@@ -16,7 +16,7 @@ RSpec.describe BetterSeo::StructuredData::Generator do
       expect(tags).to include('<script type="application/ld+json">')
       expect(tags).to include('"@type": "Organization"')
       expect(tags).to include('"@type": "Person"')
-      expect(tags.scan(/<script/).size).to eq(2)
+      expect(tags.scan("<script").size).to eq(2)
     end
 
     it "generates single script tag from one item" do
@@ -25,7 +25,7 @@ RSpec.describe BetterSeo::StructuredData::Generator do
       tags = described_class.generate_script_tags([org])
 
       expect(tags).to include('"@type": "Organization"')
-      expect(tags.scan(/<script/).size).to eq(1)
+      expect(tags.scan("<script").size).to eq(1)
     end
 
     it "returns empty string for empty array" do

@@ -71,9 +71,9 @@ RSpec.describe BetterSeo::Sitemap::UrlEntry do
 
     it "raises error for invalid changefreq" do
       entry = described_class.new("https://example.com")
-      expect {
+      expect do
         entry.changefreq = "invalid"
-      }.to raise_error(BetterSeo::ValidationError, /Invalid changefreq/)
+      end.to raise_error(BetterSeo::ValidationError, /Invalid changefreq/)
     end
   end
 
@@ -92,16 +92,16 @@ RSpec.describe BetterSeo::Sitemap::UrlEntry do
 
     it "raises error for priority < 0.0" do
       entry = described_class.new("https://example.com")
-      expect {
+      expect do
         entry.priority = -0.1
-      }.to raise_error(BetterSeo::ValidationError, /Priority must be between 0.0 and 1.0/)
+      end.to raise_error(BetterSeo::ValidationError, /Priority must be between 0.0 and 1.0/)
     end
 
     it "raises error for priority > 1.0" do
       entry = described_class.new("https://example.com")
-      expect {
+      expect do
         entry.priority = 1.1
-      }.to raise_error(BetterSeo::ValidationError, /Priority must be between 0.0 and 1.0/)
+      end.to raise_error(BetterSeo::ValidationError, /Priority must be between 0.0 and 1.0/)
     end
   end
 
@@ -138,7 +138,7 @@ RSpec.describe BetterSeo::Sitemap::UrlEntry do
       lines = xml.split("\n")
       expect(lines[0]).to match(/^\s{2}<url>/)
       expect(lines[1]).to match(/^\s{4}<loc>/)
-      expect(lines[-1]).to match(/^\s{2}<\/url>/)
+      expect(lines[-1]).to match(%r{^\s{2}</url>})
     end
 
     it "escapes special characters in URL" do
@@ -187,30 +187,30 @@ RSpec.describe BetterSeo::Sitemap::UrlEntry do
 
     it "raises error when loc is missing" do
       entry = described_class.new("")
-      expect {
+      expect do
         entry.validate!
-      }.to raise_error(BetterSeo::ValidationError, /Location is required/)
+      end.to raise_error(BetterSeo::ValidationError, /Location is required/)
     end
 
     it "raises error when loc is nil" do
       entry = described_class.new(nil)
-      expect {
+      expect do
         entry.validate!
-      }.to raise_error(BetterSeo::ValidationError, /Location is required/)
+      end.to raise_error(BetterSeo::ValidationError, /Location is required/)
     end
 
     it "raises error for invalid URL format" do
       entry = described_class.new("not-a-url")
-      expect {
+      expect do
         entry.validate!
-      }.to raise_error(BetterSeo::ValidationError, /Invalid URL format/)
+      end.to raise_error(BetterSeo::ValidationError, /Invalid URL format/)
     end
 
     it "raises error for non-HTTP/HTTPS URLs" do
       entry = described_class.new("ftp://example.com/file")
-      expect {
+      expect do
         entry.validate!
-      }.to raise_error(BetterSeo::ValidationError, /Invalid URL format/)
+      end.to raise_error(BetterSeo::ValidationError, /Invalid URL format/)
     end
   end
 end

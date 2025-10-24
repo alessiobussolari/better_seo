@@ -44,7 +44,7 @@ RSpec.describe BetterSeo::Configuration do
       {
         site_name: "My Site",
         default_locale: :it,
-        available_locales: [:it, :en],
+        available_locales: %i[it en],
         meta_tags: {
           default_title: "Custom Title",
           default_description: "Custom Description"
@@ -61,7 +61,7 @@ RSpec.describe BetterSeo::Configuration do
 
       expect(config.site_name).to eq("My Site")
       expect(config.default_locale).to eq(:it)
-      expect(config.available_locales).to eq([:it, :en])
+      expect(config.available_locales).to eq(%i[it en])
       expect(config.meta_tags.default_title).to eq("Custom Title")
       expect(config.meta_tags.default_description).to eq("Custom Description")
     end
@@ -69,8 +69,8 @@ RSpec.describe BetterSeo::Configuration do
     it "preserves unspecified defaults" do
       config.load_from_hash({ site_name: "Test" })
 
-      expect(config.default_locale).to eq(:en)  # Still default
-      expect(config.meta_tags.title_separator).to eq(" | ")  # Still default
+      expect(config.default_locale).to eq(:en) # Still default
+      expect(config.meta_tags.title_separator).to eq(" | ") # Still default
     end
 
     it "handles nested hash merging" do
@@ -78,7 +78,7 @@ RSpec.describe BetterSeo::Configuration do
 
       expect(config.sitemap.enabled).to be true
       expect(config.sitemap.host).to eq("https://example.com")
-      expect(config.sitemap.output_path).to eq("public/sitemap.xml")  # Default preserved
+      expect(config.sitemap.output_path).to eq("public/sitemap.xml") # Default preserved
     end
   end
 
@@ -86,13 +86,13 @@ RSpec.describe BetterSeo::Configuration do
     context "with valid configuration" do
       before do
         config.load_from_hash({
-          available_locales: [:it, :en],
-          default_locale: :it,
-          sitemap: {
-            enabled: true,
-            host: "https://example.com"
-          }
-        })
+                                available_locales: %i[it en],
+                                default_locale: :it,
+                                sitemap: {
+                                  enabled: true,
+                                  host: "https://example.com"
+                                }
+                              })
       end
 
       it "returns true" do
@@ -107,52 +107,52 @@ RSpec.describe BetterSeo::Configuration do
     context "with invalid configuration" do
       it "raises error when default_locale not in available_locales" do
         config.default_locale = :fr
-        config.available_locales = [:it, :en]
+        config.available_locales = %i[it en]
 
-        expect {
+        expect do
           config.validate!
-        }.to raise_error(BetterSeo::ValidationError, /default_locale/)
+        end.to raise_error(BetterSeo::ValidationError, /default_locale/)
       end
 
       it "raises error when sitemap enabled without host" do
         config.sitemap.enabled = true
         config.sitemap.host = nil
 
-        expect {
+        expect do
           config.validate!
-        }.to raise_error(BetterSeo::ValidationError, /sitemap\.host/)
+        end.to raise_error(BetterSeo::ValidationError, /sitemap\.host/)
       end
 
       it "raises error when title too long" do
         config.meta_tags.default_title = "A" * 80
 
-        expect {
+        expect do
           config.validate!
-        }.to raise_error(BetterSeo::ValidationError, /60 characters/)
+        end.to raise_error(BetterSeo::ValidationError, /60 characters/)
       end
 
       it "raises error when description too long" do
         config.meta_tags.default_description = "A" * 200
 
-        expect {
+        expect do
           config.validate!
-        }.to raise_error(BetterSeo::ValidationError, /160 characters/)
+        end.to raise_error(BetterSeo::ValidationError, /160 characters/)
       end
 
       it "raises error when available_locales is not an array" do
         config.available_locales = "invalid"
 
-        expect {
+        expect do
           config.validate!
-        }.to raise_error(BetterSeo::ValidationError, /must be a non-empty array/)
+        end.to raise_error(BetterSeo::ValidationError, /must be a non-empty array/)
       end
 
       it "raises error when available_locales is empty" do
         config.available_locales = []
 
-        expect {
+        expect do
           config.validate!
-        }.to raise_error(BetterSeo::ValidationError, /must be a non-empty array/)
+        end.to raise_error(BetterSeo::ValidationError, /must be a non-empty array/)
       end
     end
   end
@@ -245,13 +245,13 @@ RSpec.describe BetterSeo::Configuration do
 
       expect(nested.default_title).to eq("New Title")
       expect(nested.custom).to eq("value")
-      expect(nested.title_separator).to eq(" | ")  # Preserved
+      expect(nested.title_separator).to eq(" | ") # Preserved
     end
 
     it "raises NoMethodError for non-existent keys without setter" do
-      expect {
+      expect do
         nested.non_existent_key
-      }.to raise_error(NoMethodError)
+      end.to raise_error(NoMethodError)
     end
 
     it "dynamically defines accessors when setting new keys with []=" do
@@ -311,9 +311,9 @@ RSpec.describe BetterSeo::Configuration do
 
       it "allows setter access on deeply nested hashes" do
         # This is the key test for the bug we fixed
-        expect {
+        expect do
           config.open_graph.default_image.url = "https://example.com/image.jpg"
-        }.not_to raise_error
+        end.not_to raise_error
 
         expect(config.open_graph.default_image.url).to eq("https://example.com/image.jpg")
       end
@@ -394,10 +394,10 @@ RSpec.describe BetterSeo::Configuration do
         nested = BetterSeo::Configuration::NestedConfiguration.new({ existing: "value" })
 
         nested.merge!({
-          new_nested: {
-            inner_key: "inner_value"
-          }
-        })
+                        new_nested: {
+                          inner_key: "inner_value"
+                        }
+                      })
 
         expect(nested.new_nested).to be_a(BetterSeo::Configuration::NestedConfiguration)
         expect(nested.new_nested.inner_key).to eq("inner_value")
@@ -405,8 +405,8 @@ RSpec.describe BetterSeo::Configuration do
 
       it "preserves existing NestedConfiguration objects" do
         nested = BetterSeo::Configuration::NestedConfiguration.new({
-          existing_nested: { key: "original" }
-        })
+                                                                     existing_nested: { key: "original" }
+                                                                   })
 
         original_object_id = nested.existing_nested.object_id
 
@@ -421,12 +421,12 @@ RSpec.describe BetterSeo::Configuration do
     context "real-world scenario: generator template" do
       it "allows setting default_image properties individually (generator template syntax)" do
         # This is exactly what the generator template does
-        expect {
+        expect do
           config.open_graph.default_image.url = "https://example.com/default-og-image.jpg"
           config.open_graph.default_image.width = 1200
           config.open_graph.default_image.height = 630
           config.open_graph.default_image.alt = "Default image description"
-        }.not_to raise_error
+        end.not_to raise_error
 
         expect(config.open_graph.default_image.url).to eq("https://example.com/default-og-image.jpg")
         expect(config.open_graph.default_image.width).to eq(1200)
@@ -437,7 +437,7 @@ RSpec.describe BetterSeo::Configuration do
       it "works with BetterSeo.configure block (real usage)" do
         BetterSeo.reset_configuration!
 
-        expect {
+        expect do
           BetterSeo.configure do |c|
             c.site_name = "Test Site"
             c.open_graph.site_name = "Test Site OG"
@@ -445,7 +445,7 @@ RSpec.describe BetterSeo::Configuration do
             c.open_graph.default_image.width = 1200
             c.open_graph.default_image.height = 630
           end
-        }.not_to raise_error
+        end.not_to raise_error
 
         config = BetterSeo.configuration
         expect(config.site_name).to eq("Test Site")

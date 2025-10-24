@@ -24,14 +24,13 @@ RSpec.describe BetterSeo::Rails::Helpers::StructuredDataHelper do
       expect(tag).to include('<script type="application/ld+json">')
       expect(tag).to include('"@type": "Organization"')
       expect(tag).to include('"name": "Acme Corp"')
-      expect(tag).to include('</script>')
+      expect(tag).to include("</script>")
     end
 
     it "generates script tag from hash configuration" do
       tag = helper.structured_data_tag(:organization,
-        name: "Acme Corp",
-        url: "https://acme.com"
-      )
+                                       name: "Acme Corp",
+                                       url: "https://acme.com")
 
       expect(tag).to include('<script type="application/ld+json">')
       expect(tag).to include('"@type": "Organization"')
@@ -52,9 +51,8 @@ RSpec.describe BetterSeo::Rails::Helpers::StructuredDataHelper do
 
     it "supports article type" do
       tag = helper.structured_data_tag(:article,
-        headline: "Test Article",
-        author: "John Doe"
-      )
+                                       headline: "Test Article",
+                                       author: "John Doe")
 
       expect(tag).to include('"@type": "Article"')
       expect(tag).to include('"headline": "Test Article"')
@@ -62,9 +60,8 @@ RSpec.describe BetterSeo::Rails::Helpers::StructuredDataHelper do
 
     it "supports person type" do
       tag = helper.structured_data_tag(:person,
-        name: "John Doe",
-        email: "john@example.com"
-      )
+                                       name: "John Doe",
+                                       email: "john@example.com")
 
       expect(tag).to include('"@type": "Person"')
       expect(tag).to include('"name": "John Doe"')
@@ -93,9 +90,9 @@ RSpec.describe BetterSeo::Rails::Helpers::StructuredDataHelper do
     end
 
     it "raises error for unknown type" do
-      expect {
+      expect do
         helper.structured_data_tag(:unknown_type, name: "Test")
-      }.to raise_error(ArgumentError, /Unknown structured data type/)
+      end.to raise_error(ArgumentError, /Unknown structured data type/)
     end
   end
 
@@ -108,7 +105,7 @@ RSpec.describe BetterSeo::Rails::Helpers::StructuredDataHelper do
 
       expect(tags).to include('"@type": "Organization"')
       expect(tags).to include('"@type": "Person"')
-      expect(tags.scan(/<script/).size).to eq(2)
+      expect(tags.scan("<script").size).to eq(2)
     end
 
     it "generates multiple tags with mixed types" do

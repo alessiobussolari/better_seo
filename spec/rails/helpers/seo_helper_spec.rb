@@ -19,7 +19,7 @@ RSpec.describe BetterSeo::Rails::Helpers::SeoHelper do
       config = {
         title: "Test Page",
         description: "Test Description",
-        keywords: ["ruby", "seo"]
+        keywords: %w[ruby seo]
       }
 
       html = view_context.seo_meta_tags(config)

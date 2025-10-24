@@ -102,9 +102,9 @@ RSpec.describe BetterSeo::DSL::TwitterCards do
     it "accepts image as hash with url" do
       twitter.image(url: "https://example.com/image.jpg", alt: "Image description")
       expect(twitter.get(:image)).to eq({
-        url: "https://example.com/image.jpg",
-        alt: "Image description"
-      })
+                                          url: "https://example.com/image.jpg",
+                                          alt: "Image description"
+                                        })
     end
   end
 
@@ -150,10 +150,10 @@ RSpec.describe BetterSeo::DSL::TwitterCards do
       it "sets app name for all platforms" do
         twitter.app_name("My App")
         expect(twitter.get(:app_name)).to eq({
-          iphone: "My App",
-          ipad: "My App",
-          googleplay: "My App"
-        })
+                                               iphone: "My App",
+                                               ipad: "My App",
+                                               googleplay: "My App"
+                                             })
       end
 
       it "sets app name for specific platform" do
@@ -230,27 +230,27 @@ RSpec.describe BetterSeo::DSL::TwitterCards do
       it "raises error when card type is invalid" do
         twitter.card("invalid_type")
 
-        expect {
+        expect do
           twitter.send(:validate!)
-        }.to raise_error(BetterSeo::ValidationError, /Invalid card type/)
+        end.to raise_error(BetterSeo::ValidationError, /Invalid card type/)
       end
 
       it "raises error when title is missing" do
         twitter.card("summary")
         twitter.description("Description")
 
-        expect {
+        expect do
           twitter.send(:validate!)
-        }.to raise_error(BetterSeo::ValidationError, /title is required/)
+        end.to raise_error(BetterSeo::ValidationError, /title is required/)
       end
 
       it "raises error when description is missing" do
         twitter.card("summary")
         twitter.title("Title")
 
-        expect {
+        expect do
           twitter.send(:validate!)
-        }.to raise_error(BetterSeo::ValidationError, /description is required/)
+        end.to raise_error(BetterSeo::ValidationError, /description is required/)
       end
 
       it "raises error when image is missing for summary_large_image" do
@@ -258,9 +258,9 @@ RSpec.describe BetterSeo::DSL::TwitterCards do
         twitter.title("Title")
         twitter.description("Description")
 
-        expect {
+        expect do
           twitter.send(:validate!)
-        }.to raise_error(BetterSeo::ValidationError, /image is required/)
+        end.to raise_error(BetterSeo::ValidationError, /image is required/)
       end
 
       it "raises error when title is too long" do
@@ -268,9 +268,9 @@ RSpec.describe BetterSeo::DSL::TwitterCards do
         twitter.title("A" * 80)
         twitter.description("Description")
 
-        expect {
+        expect do
           twitter.send(:validate!)
-        }.to raise_error(BetterSeo::ValidationError, /Title too long/)
+        end.to raise_error(BetterSeo::ValidationError, /Title too long/)
       end
 
       it "raises error when description is too long" do
@@ -278,9 +278,9 @@ RSpec.describe BetterSeo::DSL::TwitterCards do
         twitter.title("Title")
         twitter.description("A" * 250)
 
-        expect {
+        expect do
           twitter.send(:validate!)
-        }.to raise_error(BetterSeo::ValidationError, /Description too long/)
+        end.to raise_error(BetterSeo::ValidationError, /Description too long/)
       end
     end
   end
@@ -288,13 +288,13 @@ RSpec.describe BetterSeo::DSL::TwitterCards do
   describe "method chaining" do
     it "supports fluent interface" do
       result = twitter
-        .card("summary_large_image")
-        .site("@mysite")
-        .creator("@author")
-        .title("Chained Title")
-        .description("Chained Description")
-        .image("https://example.com/chain.jpg")
-        .image_alt("Chain image")
+               .card("summary_large_image")
+               .site("@mysite")
+               .creator("@author")
+               .title("Chained Title")
+               .description("Chained Description")
+               .image("https://example.com/chain.jpg")
+               .image_alt("Chain image")
 
       expect(result).to eq(twitter)
       expect(twitter.card).to eq("summary_large_image")

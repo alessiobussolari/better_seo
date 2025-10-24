@@ -41,7 +41,7 @@ module BetterSeo
         end
 
         # Generate all SEO tags (meta + og + twitter) from configuration or block
-        def seo_tags(config = nil, &block)
+        def seo_tags(config = nil)
           if block_given?
             context = SeoTagsContext.new
             yield(context)
@@ -55,9 +55,7 @@ module BetterSeo
 
           tags = []
 
-          if merged_config[:meta]
-            tags << seo_meta_tags(merged_config[:meta])
-          end
+          tags << seo_meta_tags(merged_config[:meta]) if merged_config[:meta]
 
           if merged_config[:og] && BetterSeo.configuration.open_graph_enabled?
             tags << seo_open_graph_tags(merged_config[:og])
@@ -81,9 +79,7 @@ module BetterSeo
           meta = {}
 
           # Start with controller data
-          if controller_data[:meta]
-            meta = controller_data[:meta].dup
-          end
+          meta = controller_data[:meta].dup if controller_data[:meta]
 
           # Use default title if not set
           meta[:title] ||= config.meta_tags.default_title

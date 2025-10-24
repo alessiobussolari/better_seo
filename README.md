@@ -2254,4 +2254,10 @@ Everyone interacting in the BetterSeo project's codebases, issue trackers, chat 
 
 ---
 
-Made with ❤️ by [Alessio Bussolari](https://www.linkedin.com/in/alessio-bussolari/)
+<div align="center">
+
+Made with ❤️ by **Alessio Bussolari**
+
+[Report Bug](https://github.com/alessiobussolari/better_seo/issues) · [Request Feature](https://github.com/alessiobussolari/better_seo/issues) · [Documentation](https://github.com/alessiobussolari/better_seo#readme)
+
+</div>

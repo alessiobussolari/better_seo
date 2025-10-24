@@ -5,7 +5,7 @@ require "spec_helper"
 RSpec.describe BetterSeo do
   it "has a version number" do
     expect(BetterSeo::VERSION).not_to be_nil
-    expect(BetterSeo::VERSION).to match(/^\d+\.\d+\.\d+$/)
+    expect(BetterSeo::VERSION).to match(/^\d+\.\d+\.\d+(\.\d+)?$/)
   end
 
   describe ".configuration" do

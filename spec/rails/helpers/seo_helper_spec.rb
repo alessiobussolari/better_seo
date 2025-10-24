@@ -182,16 +182,22 @@ RSpec.describe BetterSeo::Rails::Helpers::SeoHelper do
       expect(html).to include("All Twitter Title")
     end
 
-    it "allows skipping optional tag groups" do
+    it "generates all tag groups with defaults when only meta is provided" do
       html = view_context.seo_tags do |seo|
         seo.meta do |meta|
           meta.title "Only Meta"
         end
       end
 
+      # Meta tags should include the custom title
       expect(html).to include("Only Meta")
-      expect(html).not_to include('property="og:')
-      expect(html).not_to include('name="twitter:')
+
+      # OG and Twitter tags should be generated automatically with defaults
+      expect(html).to include('property="og:')
+      expect(html).to include('name="twitter:')
+
+      # OG should use meta title as fallback
+      expect(html).to include('property="og:title" content="Only Meta')
     end
 
     it "returns HTML safe string" do

@@ -2241,30 +2241,6 @@ Everyone interacting in the BetterSeo project's codebases, issue trackers, chat 
 
 ---
 
-## 🗺️ Roadmap
-
-See [docs/00_OVERVIEW.md](docs/00_OVERVIEW.md) for the complete implementation roadmap.
-
-### 📅 Version History
-
-- ✅ **v0.1.0** - Core configuration system
-- ✅ **v0.2.0** - DSL builders (Meta Tags, Open Graph, Twitter Cards)
-- ✅ **v0.3.0** - HTML generators (Meta Tags, Open Graph, Twitter Cards)
-- ✅ **v0.4.0** - Rails view helpers integration
-- ✅ **v0.5.0** - Sitemap generation
-- ✅ **v0.6.0** - Structured data (JSON-LD)
-- ✅ **v0.7.0** - Advanced Rails integration
-- ✅ **v0.8.0** - Structured data helpers
-- ✅ **v0.9.0** - Additional structured data types
-- ✅ **v0.10.0** - Rails model helpers
-- ✅ **v0.11.0** - Advanced sitemap features
-- ✅ **v0.12.0** - Advanced generators (Breadcrumbs, AMP, Canonical)
-- ✅ **v0.13.0** - SEO tools (Robots.txt, Validator, Image Optimizer, Analytics)
-- ✅ **v0.14.0** - SEO intelligence (GTM, Recommendations)
-- 🎉 **v1.0.0** - **Production Ready** ← **Current**
-
----
-
 ## 🌟 Why BetterSeo?
 
 - ✅ **Production-Ready**: 899 tests, 94.3% coverage
@@ -2278,4 +2254,4 @@ See [docs/00_OVERVIEW.md](docs/00_OVERVIEW.md) for the complete implementation r
 
 ---
 
-Made with ❤️ by the BetterSeo team
+Made with ❤️ by [Alessio Bussolari](https://www.linkedin.com/in/alessio-bussolari/)

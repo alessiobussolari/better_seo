@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0.1] - 2025-01-24
+
+### Fixed
+- Fixed nested configuration setters to support syntax like `config.open_graph.default_image.url = "value"`
+  - Modified `NestedConfiguration#initialize` to automatically wrap nested hashes
+  - Modified `NestedConfiguration#[]=` to wrap hash values
+  - Modified `NestedConfiguration#method_missing` setter to wrap hash values
+  - Modified `NestedConfiguration#merge!` to wrap nested hashes after merge
+  - Modified `NestedConfiguration#to_h` to recursively convert back to plain hashes
+- Fixed SEO helper to automatically merge with configuration defaults
+  - Added `build_seo_config` private method in `SeoHelper`
+  - Automatic site_name appending to titles when configured
+  - Automatic generation of Open Graph and Twitter Card tags with defaults
+  - Support for `default_title` when not set in controller
+- Fixed Railtie loading by adding require in `lib/better_seo.rb`
+- Updated README with improved footer (Made with ❤️ by Alessio Bussolari)
+- Removed Roadmap section from README (version history moved to CHANGELOG)
+
+### Added
+- 17 new tests for nested configuration hash wrapping
+  - Tests for initialization, assignment, merge, and edge cases
+  - Real-world generator template syntax tests
+  - Total: 916 tests passing (899 + 17)
+
+### Enhanced
+- Improved user experience with automatic defaults in SEO tags
+- Better configuration system with deep nested object support
+- More intuitive initializer template generation
+
 ## [1.0.0] - 2025-01-23 🎉
 
 ### 🚀 First Stable Release - Production Ready!

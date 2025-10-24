@@ -1,0 +1,29 @@
+===============================================================================
+
+BetterSeo has been installed successfully!
+
+Configuration file created at: config/initializers/better_seo.rb
+
+Next steps:
+
+1. Edit the configuration file to match your site settings
+2. Include BetterSeo::Rails::Helpers::ControllerHelpers in your controllers
+   (or use ApplicationController if you want it available everywhere)
+
+3. Use the helpers in your views:
+   - <%= seo_tags %> for complete SEO tags
+   - <%= seo_meta_tags %> for meta tags only
+   - <%= seo_open_graph_tags %> for Open Graph tags
+   - <%= seo_twitter_tags %> for Twitter Cards
+   - <%= structured_data_tag(:organization, ...) %> for structured data
+
+4. In your controllers, set page-specific SEO data:
+   - set_page_title("My Page")
+   - set_page_description("Description")
+   - set_page_keywords(["keyword1", "keyword2"])
+   - set_page_image("https://example.com/image.jpg")
+   - set_canonical("https://example.com/canonical-url")
+
+For more information, visit: https://github.com/alessiobussolari/better_seo
+
+===============================================================================

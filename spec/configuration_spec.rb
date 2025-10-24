@@ -298,4 +298,203 @@ RSpec.describe BetterSeo::Configuration do
       expect(fresh_nested.manual_key).to eq("manual_value")
     end
   end
+
+  describe "nested hash wrapping" do
+    context "during initialization" do
+      it "wraps nested hashes in NestedConfiguration objects" do
+        # open_graph.default_image is a nested hash in the config
+        default_image = config.open_graph.default_image
+
+        expect(default_image).to be_a(BetterSeo::Configuration::NestedConfiguration)
+        expect(default_image).not_to be_a(Hash)
+      end
+
+      it "allows setter access on deeply nested hashes" do
+        # This is the key test for the bug we fixed
+        expect {
+          config.open_graph.default_image.url = "https://example.com/image.jpg"
+        }.not_to raise_error
+
+        expect(config.open_graph.default_image.url).to eq("https://example.com/image.jpg")
+      end
+
+      it "supports multi-level nesting with getters and setters" do
+        # Set values at multiple levels
+        config.open_graph.default_image.url = "https://test.com/og.jpg"
+        config.open_graph.default_image.width = 1200
+        config.open_graph.default_image.height = 630
+
+        # Verify all values were set correctly
+        expect(config.open_graph.default_image.url).to eq("https://test.com/og.jpg")
+        expect(config.open_graph.default_image.width).to eq(1200)
+        expect(config.open_graph.default_image.height).to eq(630)
+      end
+
+      it "wraps sitemap.defaults hash" do
+        # sitemap.defaults is another nested hash
+        expect(config.sitemap.defaults).to be_a(BetterSeo::Configuration::NestedConfiguration)
+
+        # Should be able to set values
+        config.sitemap.defaults.changefreq = "daily"
+        expect(config.sitemap.defaults.changefreq).to eq("daily")
+      end
+
+      it "wraps images.webp hash" do
+        expect(config.images.webp).to be_a(BetterSeo::Configuration::NestedConfiguration)
+
+        config.images.webp.enabled = false
+        expect(config.images.webp.enabled).to be false
+      end
+
+      it "wraps images.sizes.og_image hash (triple nesting)" do
+        expect(config.images.sizes).to be_a(BetterSeo::Configuration::NestedConfiguration)
+        expect(config.images.sizes.og_image).to be_a(BetterSeo::Configuration::NestedConfiguration)
+
+        config.images.sizes.og_image.width = 1600
+        expect(config.images.sizes.og_image.width).to eq(1600)
+      end
+    end
+
+    context "when assigning hash values" do
+      it "wraps hash assigned with []=" do
+        nested = BetterSeo::Configuration::NestedConfiguration.new({})
+
+        nested[:new_nested] = { key1: "value1", key2: "value2" }
+
+        expect(nested.new_nested).to be_a(BetterSeo::Configuration::NestedConfiguration)
+        expect(nested.new_nested.key1).to eq("value1")
+        expect(nested.new_nested.key2).to eq("value2")
+      end
+
+      it "wraps hash assigned with method setter" do
+        nested = BetterSeo::Configuration::NestedConfiguration.new({})
+
+        nested.custom_config = { option1: "opt1", option2: "opt2" }
+
+        expect(nested.custom_config).to be_a(BetterSeo::Configuration::NestedConfiguration)
+        expect(nested.custom_config.option1).to eq("opt1")
+        expect(nested.custom_config.option2).to eq("opt2")
+      end
+
+      it "does not wrap non-hash values" do
+        nested = BetterSeo::Configuration::NestedConfiguration.new({})
+
+        nested.string_value = "just a string"
+        nested.number_value = 42
+        nested.array_value = [1, 2, 3]
+
+        expect(nested.string_value).to eq("just a string")
+        expect(nested.number_value).to eq(42)
+        expect(nested.array_value).to eq([1, 2, 3])
+      end
+    end
+
+    context "with merge!" do
+      it "wraps nested hashes after merge" do
+        nested = BetterSeo::Configuration::NestedConfiguration.new({ existing: "value" })
+
+        nested.merge!({
+          new_nested: {
+            inner_key: "inner_value"
+          }
+        })
+
+        expect(nested.new_nested).to be_a(BetterSeo::Configuration::NestedConfiguration)
+        expect(nested.new_nested.inner_key).to eq("inner_value")
+      end
+
+      it "preserves existing NestedConfiguration objects" do
+        nested = BetterSeo::Configuration::NestedConfiguration.new({
+          existing_nested: { key: "original" }
+        })
+
+        original_object_id = nested.existing_nested.object_id
+
+        nested.merge!({ other_key: "value" })
+
+        # Should still be a NestedConfiguration with same object_id
+        expect(nested.existing_nested).to be_a(BetterSeo::Configuration::NestedConfiguration)
+        expect(nested.existing_nested.object_id).to eq(original_object_id)
+      end
+    end
+
+    context "real-world scenario: generator template" do
+      it "allows setting default_image properties individually (generator template syntax)" do
+        # This is exactly what the generator template does
+        expect {
+          config.open_graph.default_image.url = "https://example.com/default-og-image.jpg"
+          config.open_graph.default_image.width = 1200
+          config.open_graph.default_image.height = 630
+          config.open_graph.default_image.alt = "Default image description"
+        }.not_to raise_error
+
+        expect(config.open_graph.default_image.url).to eq("https://example.com/default-og-image.jpg")
+        expect(config.open_graph.default_image.width).to eq(1200)
+        expect(config.open_graph.default_image.height).to eq(630)
+        expect(config.open_graph.default_image.alt).to eq("Default image description")
+      end
+
+      it "works with BetterSeo.configure block (real usage)" do
+        BetterSeo.reset_configuration!
+
+        expect {
+          BetterSeo.configure do |c|
+            c.site_name = "Test Site"
+            c.open_graph.site_name = "Test Site OG"
+            c.open_graph.default_image.url = "https://test.com/og.jpg"
+            c.open_graph.default_image.width = 1200
+            c.open_graph.default_image.height = 630
+          end
+        }.not_to raise_error
+
+        config = BetterSeo.configuration
+        expect(config.site_name).to eq("Test Site")
+        expect(config.open_graph.site_name).to eq("Test Site OG")
+        expect(config.open_graph.default_image.url).to eq("https://test.com/og.jpg")
+        expect(config.open_graph.default_image.width).to eq(1200)
+
+        # Reset for other tests
+        BetterSeo.reset_configuration!
+      end
+
+      it "converts nested hash back to plain hash with to_h" do
+        config.open_graph.default_image.url = "https://test.com/image.jpg"
+        config.open_graph.default_image.width = 1000
+
+        hash = config.to_h
+
+        expect(hash[:open_graph]).to be_a(Hash)
+        expect(hash[:open_graph][:default_image]).to be_a(Hash)
+        expect(hash[:open_graph][:default_image][:url]).to eq("https://test.com/image.jpg")
+        expect(hash[:open_graph][:default_image][:width]).to eq(1000)
+      end
+    end
+
+    context "edge cases" do
+      it "handles empty hash assignment" do
+        nested = BetterSeo::Configuration::NestedConfiguration.new({})
+        nested.empty_hash = {}
+
+        expect(nested.empty_hash).to be_a(BetterSeo::Configuration::NestedConfiguration)
+      end
+
+      it "handles nil assignment (does not wrap)" do
+        nested = BetterSeo::Configuration::NestedConfiguration.new({})
+        nested.nil_value = nil
+
+        expect(nested.nil_value).to be_nil
+      end
+
+      it "prevents wrapping already wrapped NestedConfiguration" do
+        nested1 = BetterSeo::Configuration::NestedConfiguration.new({ key: "value" })
+        nested2 = BetterSeo::Configuration::NestedConfiguration.new({})
+
+        nested2.existing = nested1
+
+        # Should not double-wrap
+        expect(nested2.existing).to be(nested1)
+        expect(nested2.existing.key).to eq("value")
+      end
+    end
+  end
 end

@@ -42,6 +42,7 @@ require_relative "better_seo/rails/helpers/seo_helper"
 require_relative "better_seo/rails/helpers/structured_data_helper"
 require_relative "better_seo/rails/helpers/controller_helpers"
 require_relative "better_seo/rails/model_helpers"
+require_relative "better_seo/rails/railtie" if defined?(Rails::Railtie)
 
 module BetterSeo
   class << self

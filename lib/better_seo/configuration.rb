@@ -233,17 +233,26 @@ module BetterSeo
     class NestedConfiguration
       def initialize(hash = {})
         @data = hash.with_indifferent_access
+        # Wrap nested hashes in NestedConfiguration objects for deep setter support
+        @data.each do |key, value|
+          @data[key] = NestedConfiguration.new(value) if value.is_a?(Hash) && !value.is_a?(NestedConfiguration)
+        end
         define_accessors!
       end
 
       def merge!(other_hash)
         @data.deep_merge!(other_hash.with_indifferent_access)
+        # Wrap any new nested hashes in NestedConfiguration objects
+        @data.each do |key, value|
+          @data[key] = NestedConfiguration.new(value) if value.is_a?(Hash) && !value.is_a?(NestedConfiguration)
+        end
         define_accessors!
         self
       end
 
       def to_h
-        @data.deep_dup
+        # Recursively convert NestedConfiguration objects back to plain hashes
+        convert_to_hash(@data)
       end
 
       def [](key)
@@ -251,7 +260,7 @@ module BetterSeo
       end
 
       def []=(key, value)
-        @data[key] = value
+        @data[key] = value.is_a?(Hash) ? NestedConfiguration.new(value) : value
         define_accessor(key)
       end
 
@@ -260,7 +269,8 @@ module BetterSeo
 
         if method_str.end_with?("=")
           key = method_str.chomp("=").to_sym
-          @data[key] = args.first
+          value = args.first
+          @data[key] = value.is_a?(Hash) ? NestedConfiguration.new(value) : value
           define_accessor(key)
         elsif @data.key?(method_name)
           @data[method_name]
@@ -274,6 +284,19 @@ module BetterSeo
       end
 
       private
+
+      def convert_to_hash(value)
+        case value
+        when NestedConfiguration
+          value.to_h
+        when Hash
+          value.transform_values { |v| convert_to_hash(v) }
+        when Array
+          value.map { |v| convert_to_hash(v) }
+        else
+          value
+        end
+      end
 
       def define_accessors!
         @data.keys.each { |key| define_accessor(key) }
